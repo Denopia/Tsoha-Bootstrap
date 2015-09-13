@@ -9,4 +9,4 @@ Yleisiä linkkejä:
 
 Aihe on pokemon tietokanta(http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pokemon-kanta.html)
 
-Sain nuo tietokantataulut toimimaan sivullani, mutta viikonloppuna netbeans alkoi antamaan erroria "Cannot upload file ____ (unknown reason)." ja nyt koko sivulle ei enää pääse. Täytyy tulla käymään pajassa a kysyä neuvoa.
+Sain nuo tietokantataulut toimimaan sivullani, mutta viikonloppuna netbeans alkoi antamaan erroria "Cannot upload file ____ (unknown reason)." ja nyt koko sivulle ei enää pääse (esimerkiksi http://xlex.users.cs.helsinki.fi/tsoha/search sanoo "The requested URL /tsoha/search was not found on this server."). Täytyy tulla käymään pajassa ja kysyä neuvoa.
