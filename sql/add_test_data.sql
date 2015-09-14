@@ -15,8 +15,8 @@ INSERT INTO Ability (ability_name, description) VALUES ('Overgrow', 'Powers up G
 INSERT INTO Ability (ability_name, description) VALUES ('Chlorophyll', 'Boosts the Pokémon''s Speed stat in sunshine.');
 INSERT INTO Ability (ability_name, description) VALUES ('Blaze', 'Powers up Fire-type moves when the Pokémon is in trouble.');
 
-INSERT INTO Move (move_name, description) VALUES ('Flare Blitz', 'The user cloaks itself in fire and charges the target. This also damages the user quite a lot. This may leave the target with a burn.');
+--INSERT INTO Move (move_name, description) VALUES ('Flare Blitz', 'The user cloaks itself in fire and charges the target. This also damages the user quite a lot. This may leave the target with a burn.');
 
 
--- INSERT INTO Move (move_name, description, damage, accuracy, pp, category) VALUES ('Giga Drain', 'A nutrient-draining attack. The user''s HP is restored by half the damage taken by the target.', 75, 100, 10, 'Special');
--- INSERT INTO Move (move_name, description, damage, accuracy, pp, category) VALUES ('Flare Blitz', 'The user cloaks itself in fire and charges the target. This also damages the user quite a lot. This may leave the target with a burn.', 120, 100, 15, 'Physical');
+INSERT INTO Move (move_name, description, damage, accuracy, pp, category) VALUES ('Giga Drain', 'A nutrient-draining attack. The user''s HP is restored by half the damage taken by the target.', 75, 100, 10, 'Special');
+INSERT INTO Move (move_name, description, damage, accuracy, pp, category) VALUES ('Flare Blitz', 'The user cloaks itself in fire and charges the target. This also damages the user quite a lot. This may leave the target with a burn.', 120, 100, 15, 'Physical');
