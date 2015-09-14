@@ -1,10 +1,12 @@
-# Tietokantasovelluksen esittelysivu
+﻿# Tietokantasovelluksen esittelysivu
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](https://www.cs.helsinki.fi)
-* [Linkki dokumentaatiooni](https://www.github.com)
+* [Linkki sovellukseeni](http://xlex.users.cs.helsinki.fi/tsoha/search)
+* [Linkki dokumentaatiooni](https://github.com/Denopia/Tsoha-Pokemon-Tietokanta/tree/master/doc/dokumentaatio.pdf?raw=true)
 
 ## Työn aihe
 
-Laita tähän aihekuvaus tai [linkki valmiiseen aiheeseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pokemon-kanta.html) 
+Aihe on pokemon tietokanta(http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pokemon-kanta.html)
+
+Sain nuo tietokantataulut toimimaan sivullani, mutta viikonloppuna netbeans alkoi antamaan erroria "Cannot upload file ____ (unknown reason)." ja nyt koko sivulle ei enää pääse (esimerkiksi http://xlex.users.cs.helsinki.fi/tsoha/search sanoo "The requested URL /tsoha/search was not found on this server."). Täytyy tulla käymään pajassa ja kysyä neuvoa.
