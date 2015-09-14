@@ -2,7 +2,6 @@
 
 $routes->get('/', function() {
     HelloWorldController::index();
-//    HelloWorldController::add_new();
 });
 
 $routes->get('/hiekkalaatikko', function() {
