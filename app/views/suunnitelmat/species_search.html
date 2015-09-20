@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Pokémon search</h1>
+
+<form>
+    <div class="form-group">
+        <label>Name</label>
+        <input class="form-control" value="" type="text">
+    </div>
+
+    <!-- Check boxit ? -->
+    <div class="form-group">
+        <label>Type</label>
+        <input class="form-control" value="" type="text">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<p>Search results</p>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Number</th>
+            <th>Species</th>
+            <th>Type</th>
+            <th>Abilities</th>
+            <th>Base Hp</th>
+            <th>Base Attack</th>
+            <th>Base Defense</th>
+            <th>Base Sp.Attack</th>
+            <th>Base Sp.Defense</th>
+            <th>Base Speed</th>
+            <th>Add to your guys</th>
+            <th>Edit [Admin only]</th>
+            <th>Delete [Admin only]</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for species in allSpecies %}
+        <tr>
+            <td>#{{species.pokedex_number}}</td>
+            <td><a href="{{base_path}}/species/{{species.pokedex_number}}">{{species.species_name}}</td>
+            <td>{% for type in species.types %}{{type}} {% endfor %}</td>
+            <td>[ABILITIES]</td>
+            <td>{{species.base_hp}}</td>
+            <td>{{species.base_attack}}</td>
+            <td>{{species.base_defense}}</td>
+            <td>{{species.base_special_attack}}</td>
+            <td>{{species.base_special_defense}}</td>
+            <td>{{species.base_speed}}</td>
+            <td><a class="btn btn-success" href="{{base_path}}/species/{{species.pokedex_number}}">Add</a></td>
+            <td><a href="{{base_path}}/species/{{species.pokedex_number}}/edit" class="btn btn-primary">Edit</a></td>
+            <td><a href="{{base_path}}/species/{{species.pokedex_number}}/delete" class="btn btn-danger">Delete</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}

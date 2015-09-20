@@ -27,22 +27,29 @@ CREATE TABLE Move(
   move_id SERIAL PRIMARY KEY,
   move_name varchar(15) NOT NULL,
   description varchar(300) NOT NULL,
-  damage int,
+  power int,
   accuracy int,
   pp int,
-  category varchar(15)
+  category varchar(15),
+  typing INTEGER REFERENCES Typing(typing_id)
 );
 
-CREATE TABLE Pokemon(
-  pokemon_id SERIAL PRIMARY KEY,
-  pokedex_number int NOT NULL,
+CREATE TABLE Species(
+  species_id SERIAL PRIMARY KEY,
   species_name varchar(15) NOT NULL,
+  pokedex_number int NOT NULL,
   base_hp int NOT NULL,
   base_attack int NOT NULL,
   base_defense int NOT NULL,
   base_special_attack int NOT NULL,
   base_special_defense int NOT NULL,
   base_speed int NOT NULL,
+  primary_typing INTEGER REFERENCES Typing(typing_id),
+  secondary_typing INTEGER REFERENCES Typing(typing_id)
+);
+
+CREATE TABLE Pokemon(
+  pokemon_id SERIAL PRIMARY KEY,
   nickname varchar(20),
   gender varchar(15),
   hp int,
@@ -65,55 +72,34 @@ CREATE TABLE Pokemon(
   ev_special_defense int,
   ev_speed int,
   shiny boolean,
-  lvl int
+  lvl int,
+  nature INTEGER REFERENCES Nature(nature_id),
+  current_ability INTEGER REFERENCES Ability(ability_id),
+  species INTEGER REFERENCES Species(species_id)
 );
 
 CREATE TABLE trainer_pokemon (
-  trainer_id int REFERENCES Trainer (trainer_id),
-  pokemon_id int REFERENCES Pokemon (pokemon_id),
+  trainer_id INTEGER REFERENCES Trainer (trainer_id),
+  pokemon_id INTEGER REFERENCES Pokemon (pokemon_id),
   PRIMARY KEY (trainer_id, pokemon_id)
 );
 
-CREATE TABLE pokemon_typing (
-  pokemon_id int REFERENCES Pokemon (pokemon_id),
-  typing_id int REFERENCES Typing (typing_id),
-  PRIMARY KEY (pokemon_id, typing_id)
+CREATE TABLE species_all_moves (
+  species_id int REFERENCES Species (species_id),
+  move_id int REFERENCES Move (move_id),
+  PRIMARY KEY (species_id, move_id)
 );
 
-CREATE TABLE move_typing (
-  move_id int REFERENCES Move (move_id),
-  typing_id int REFERENCES Typing (typing_id),
-  PRIMARY KEY (move_id, typing_id)
-);
-
-CREATE TABLE pokemon_all_moves (
-  pokemon_id int REFERENCES Pokemon (pokemon_id),
-  move_id int REFERENCES Move (move_id),
-  PRIMARY KEY (pokemon_id, move_id)
+CREATE TABLE species_all_abilities (
+  species_id int REFERENCES Species (species_id),
+  ability_id int REFERENCES Ability (ability_id),
+  PRIMARY KEY (species_id, ability_id)
 );
 
 CREATE TABLE pokemon_current_moves (
   pokemon_id int REFERENCES Pokemon (pokemon_id),
   move_id int REFERENCES Move (move_id),
   PRIMARY KEY (pokemon_id, move_id)
-);
-
-CREATE TABLE pokemon_nature (
-  pokemon_id int REFERENCES Pokemon (pokemon_id),
-  nature_id int REFERENCES Nature (nature_id),
-  PRIMARY KEY (pokemon_id, nature_id)
-);
-
-CREATE TABLE pokemon_all_abilities (
-  pokemon_id int REFERENCES Pokemon (pokemon_id),
-  ability_id int REFERENCES Ability (ability_id),
-  PRIMARY KEY (pokemon_id, ability_id)
-);
-
-CREATE TABLE pokemon_current_ability (
-  pokemon_id int REFERENCES Pokemon (pokemon_id),
-  ability_id int REFERENCES Ability (ability_id),
-  PRIMARY KEY (pokemon_id, ability_id)
 );
 
 CREATE TABLE super_effective (

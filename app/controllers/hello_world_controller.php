@@ -1,16 +1,25 @@
 <?php
 
+require 'app/models/species.php';
+
 class HelloWorldController extends BaseController {
 
     public static function index() {
         // make-metodi renderöi app/views-kansiossa sijaitsevia tiedostoja
-   	  View::make('helloworld.html');
+        View::make('helloworld.html');
 //   	  View::make('home.html');
 //        echo 'Tämä on etusivu!';
     }
 
     public static function sandbox() {
-        View::make('helloworld.html');
+        $allSpecies = Species::allSpecies();
+//        $one = Species::findSpeciesByNumber(1);
+//        $allulbs = Pokemon::findAllGenericByName('ulbasau');
+//        $glaceon = Pokemon::findAnyById(7);
+        Kint::dump($allSpecies);
+//        Kint::dump($one);
+//        Kint::dump($allulbs);
+//        Kint::dump($glaceon);
     }
 
     public static function search_all() {

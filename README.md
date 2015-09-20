@@ -2,11 +2,13 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](http://xlex.users.cs.helsinki.fi/tsoha/search)
+* [Linkki sovellukseeni](http://xlex.users.cs.helsinki.fi/tsoha1/search)
 * [Linkki dokumentaatiooni](https://github.com/Denopia/Tsoha-Pokemon-Tietokanta/tree/master/doc/dokumentaatio.pdf?raw=true)
 
 ## Työn aihe
 
 Aihe on pokemon tietokanta(http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pokemon-kanta.html)
 
-Sain nuo tietokantataulut toimimaan sivullani, mutta viikonloppuna netbeans alkoi antamaan erroria "Cannot upload file ____ (unknown reason)." ja nyt koko sivulle ei enää pääse (esimerkiksi http://xlex.users.cs.helsinki.fi/tsoha/search sanoo "The requested URL /tsoha/search was not found on this server."). Täytyy tulla käymään pajassa ja kysyä neuvoa.
+Vielä ei ole rajattu lajien lisäyslomakkeeseen asetettavia arvoja kunnolla joten jos lisääjä haluaa tarkoituksella antaa huonoja arvoja lisäys epäonnistuu
+
+
