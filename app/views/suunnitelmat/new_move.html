@@ -1,32 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Add new species to database</h1>
-{% if errors %}
-<div class="alert alert-danger">
-    <ul>
-        {% for error in errors %}
-        <li>{{error}}</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
 
 <form method="post" action="{{base_path}}/species/add">
     <div class="form-group">
         <label>Name</label>
-        <input name="name" value = "{{attributes.species_name}}" class="form-control" type="text">
+        <input name="name" class="form-control" type="text">
     </div>
 
     <div class="form-group">
         <label>Pokédex number</label>
-        <input name="number" value = "{{attributes.pokedex_number}}" class="form-control" type="text">
+        <input name="number" class="form-control" type="text">
     </div>
 
     <div class="form-group">
         <label>Primary type</label>
-        <select value = "{{attributes.primary_typing}}" name="primary">
-            <option value=19>-</option>
-            <option value=1 >Normal</option>
+        <select name="primary">
+            <option value=999>-</option>
+            <option value=1>Normal</option>
             <option value=2>Fighting</option>
             <option value=3>Flying</option>
             <option value=4>Poison</option>
@@ -49,8 +40,8 @@
 
     <div class="form-group">
         <label>Secondary type</label>
-        <select value = "{{attributes.secondary_typing}}" name="secondary">
-            <option value=19>-</option>
+        <select name="secondary">
+            <option value=999>-</option>
             <option value=1>Normal</option>
             <option value=2>Fighting</option>
             <option value=3>Flying</option>
@@ -68,72 +59,42 @@
             <option value=15>Ice</option>
             <option value=16>Dragon</option>
             <option value=17>Dark</option>
-            <option value=18>Fairy</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>1st ability</label>
-        <select value = "{{attributes.ability1_id}}" name="ability1">
-            <option value="1">-</option>
-            {% for ability in abilities %}
-            <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>2nd ability</label>
-        <select value = "{{attributes.ability2_id}}" name="ability2">
-            <option value="1">-</option>
-            {% for ability in abilities %}
-            <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>3rd ability</label>
-        <select value = "{{attributes.ability3_id}}" name="ability3">
-            <option value="1">-</option>
-            {% for ability in abilities %}
-            <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
-            {% endfor %}
+            <option value=18>Fairy</option>        
         </select>
     </div>
 
     <div class="form-group">
         <label>Base hp</label>
-        <input name="hp" value = "{{attributes.base_hp}}" class="form-control" type="text">
+        <input name="hp" class="form-control" type="text">
     </div>
 
     <div class="form-group">
         <label>Base attack</label>
-        <input name="attack" value = "{{attributes.base_attack}}"class="form-control" type="text">
+        <input name="attack" class="form-control" type="text">
     </div>
 
     <div class="form-group">
         <label>Base defense</label>
-        <input name="defense" value = "{{attributes.base_defense}}"class="form-control" type="text">
+        <input name="defense" class="form-control" type="text">
     </div>
 
     <div class="form-group">
         <label>Base special attack</label>
-        <input name="spattack" value = "{{attributes.base_special_attack}}"class="form-control" type="text">
+        <input name="spattack" class="form-control" type="text">
     </div>
 
     <div class="form-group">
         <label>Base special defense</label>
-        <input name="spdefense" value = "{{attributes.base_special_defense}}"class="form-control" type="text">
+        <input name="spdefense" class="form-control" type="text">
     </div>
 
     <div class="form-group">
         <label>Base speed</label>
-        <input name="speed" value = "{{attributes.base_speed}}"class="form-control" type="text">
+        <input name="speed" class="form-control" type="text">
     </div>
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Add</button>
     </div>
 </form>
-{% endblock %}
+{% endbloc

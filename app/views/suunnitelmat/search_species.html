@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Pokémon search</h1>
+
+<form method="get" action="{{base_path}}/species/search">
+    <div class="form-group">
+        <label>Name</label>
+        <input name="name" class="form-control" value="" type="text">
+    </div>
+
+    <!-- Check boxit ? -->
+    <div class="form-group">
+        <label>Type</label><br>
+        <input type="checkbox" name="type[]" value="Normal">Normal 
+        <input type="checkbox" name="type[]" value="Fighting">Fighting 
+        <input type="checkbox" name="type[]" value="Flying">Flying 
+        <input type="checkbox" name="type[]" value="Poison">Poison 
+        <input type="checkbox" name="type[]" value="Ground">Ground 
+        <input type="checkbox" name="type[]" value="Rock">Rock 
+        <input type="checkbox" name="type[]" value="Bug">Bug 
+        <input type="checkbox" name="type[]" value="Ghost">Ghost 
+        <input type="checkbox" name="type[]" value="Steel">Steel <br>
+        <input type="checkbox" name="type[]" value="Fire">Fire 
+        <input type="checkbox" name="type[]" value="Water">Water 
+        <input type="checkbox" name="type[]" value="Grass">Grass 
+        <input type="checkbox" name="type[]" value="Electric">Electric 
+        <input type="checkbox" name="type[]" value="Psychic">Psychic 
+        <input type="checkbox" name="type[]" value="Ice">Ice 
+        <input type="checkbox" name="type[]" value="Dragon">Dragon 
+        <input type="checkbox" name="type[]" value="Dark">Dark 
+        <input type="checkbox" name="type[]" value="Fairy">Fairy  
+    </div>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<h3>Search results</h3>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Number</th>
+            <th>Species</th>
+            <th>Type</th>
+            <th>Abilities   </th>
+            <th>Base Hp</th>
+            <th>Base Attack</th>
+            <th>Base Defense</th>
+            <th>Base Sp.Attack</th>
+            <th>Base Sp.Defense</th>
+            <th>Base Speed</th>
+            <th>Add to your guys</th>
+            <th>Edit [Admin]</th>
+            <th>Delete [Admin]</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for species in allSpecies %}
+        <tr>
+            <td>#{{species.pokedex_number}}</td>
+            <td><a href="{{base_path}}/species/{{species.pokedex_number}}">{{species.species_name}}</td>
+            <td>{% for type in species.types %}{{type}}<br>{% endfor %}</td>
+            <td>{% for ability in species.abilities %}<a href="{{base_path}}/ability/{{ability.ability_name}}">{{ability.ability_name}}</a><br> {% endfor %}</td>
+            <td>{{species.base_hp}}</td>
+            <td>{{species.base_attack}}</td>
+            <td>{{species.base_defense}}</td>
+            <td>{{species.base_special_attack}}</td>
+            <td>{{species.base_special_defense}}</td>
+            <td>{{species.base_speed}}</td>
+            <td><a class="btn btn-success" href="{{base_path}}/species/{{species.pokedex_number}}">Add</a></td>
+            <td><a href="{{base_path}}/species/{{species.pokedex_number}}/edit" class="btn btn-primary">Edit</a></td>
+            <td><form method="post" action="{{base_path}}/species/{{species.pokedex_number}}/delete" style="display: inline-block;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

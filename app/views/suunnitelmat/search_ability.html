@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Ability search</h1>
+
+<form method="get" action="{{base_path}}/ability/search">
+    <div class="form-group">
+        <label>Name</label>
+        <input name="name" class="form-control" value="" type="text">
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <input name="description" class="form-control" value="" type="text">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<h3>Search results</h3>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Edit [Admin only]</th>
+            <th>Delete [Admin only]</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for ability in allAbilities %}
+        <tr>
+            <td><a href="{{base_path}}/ability/{{ability.ability_name}}">{{ability.ability_name}}</td>
+            <td>{{ability.description}}</td>
+            <td><a href="{{base_path}}/ability/{{ability.ability_name}}/edit" class="btn btn-primary">Edit [Admin]</a></td>
+            <td><form method="post" action="{{base_path}}/ability/{{ability.ability_name}}/delete" style="display: inline-block;">
+                    <button type="submit" class="btn btn-danger">Delete [Admin]</button>
+                </form></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

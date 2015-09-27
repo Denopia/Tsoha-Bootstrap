@@ -12,14 +12,12 @@ class HelloWorldController extends BaseController {
     }
 
     public static function sandbox() {
-        $allSpecies = Species::allSpecies();
-//        $one = Species::findSpeciesByNumber(1);
-//        $allulbs = Pokemon::findAllGenericByName('ulbasau');
-//        $glaceon = Pokemon::findAnyById(7);
-        Kint::dump($allSpecies);
-//        Kint::dump($one);
-//        Kint::dump($allulbs);
-//        Kint::dump($glaceon);
+        $pokemon = new Species(array(
+            'species_name' => 'MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM',
+            'pokedex_number' => '1'
+        ));
+        $errors = $pokemon->errors();
+        Kint::dump($errors);
     }
 
     public static function search_all() {
