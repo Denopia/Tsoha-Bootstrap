@@ -2,7 +2,7 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](http://http://xlex.users.cs.helsinki.fi/tsoha1/species)
+* [Linkki sovellukseeni](http://xlex.users.cs.helsinki.fi/tsoha1/species)
 * [Linkki dokumentaatiooni](https://github.com/Denopia/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf?raw=true)
 
 ## Työn aihe
