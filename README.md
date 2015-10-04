@@ -9,6 +9,11 @@ Yleisiä linkkejä:
 
 Aihe on pokemon tietokanta(http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pokemon-kanta.html)
 
-Validoinnit saatiin toimimaan uusien lajien ja taitojen luonnissa. Pokémon-lajien muokkaus ja poisto lisätty, mutta taitojen kanssa pitää vielä tehdä säätöä koska lajit viittaavat niihin. Kirjautumis-toimintoja ei myöskään vielä saatu valitettavasti kasaan.
 
+## Tunnuksia 
+	Ylläpitäjä: Käyttäjätunnus: Steven, Salasana: Stone
+	Tavallinen käyttäjä: Käyttäjätunnus: Archie, Salasana: Aqua
+	Sivulla voi myös tehdä uusia tunnuksia joista tulee tavallisia käyttäjiä
+
+Lajien ja taitojen haku, lisäys, muokkaus ja poisto toimii kuten pitääkin. Näitä pääsee siis muokkaamaan vain ylläpitäjä. Pokémonien lisäys ja haku lempinimen perusteella onnistunee myös, mutta niitä ei vielä pysty katselemaan, muokkaamaan, tai poistamaan.
 

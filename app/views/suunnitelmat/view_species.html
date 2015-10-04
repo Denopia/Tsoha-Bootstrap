@@ -6,21 +6,21 @@
 </div>
 {% endif %}
 <h1>#{{species.pokedex_number}} {{species.species_name}}</h1>
-
-<a href="{{base_path}}/mypokemon" class="btn btn-success">Add to your guys!</a>
-<a href="{{base_path}}/species/{{species.pokedex_number}}/edit" class="btn btn-primary">Edit [Admin]</a>
+{% if user_logged_in %}
+<a href="{{base_path}}/pokemon/new/{{species.pokedex_number}}" class="btn btn-success">Add to your guys!</a>
+{% endif %}
+{% if user_logged_in.admini %}
+<a href="{{base_path}}/species/{{species.pokedex_number}}/edit" class="btn btn-primary">Edit</a>
 <form method="post" action="{{base_path}}/species/{{species.pokedex_number}}/delete" style="display: inline-block;">
-    <button type="submit" class="btn btn-danger">Delete [Admin]</button>
+    <button type="submit" class="btn btn-danger">Delete</button>
 </form>
-
-<p>Type: {% for type in species.types %}
+{% endif %}
+<h3>Type: {% for type in species.types %}
     {{type}} 
-    {% endfor %}</p>
+    {% endfor %}
+</h3>
 
-
-
-
-<p>Base Stats:</p>
+<h3>Base Stats:</h3>
 <ul>
     <li>HP: {{species.base_hp}}</li>
     <li>Attack: {{species.base_attack}}</li>
@@ -29,14 +29,16 @@
     <li>Special Defense: {{species.base_special_defense}}</li>
     <li>Speed: {{species.base_speed}}</li>
 </ul>
-<p>Abilities:</p>
+<h3>Abilities:</h3>
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Edit [Admin only]</th>
-            <th>Delete [Admin only]</th>
+            {% if user_logged_in.admini %}
+            <th>Edit</th>
+            <th>Delete</th>
+            {% endif %}
         </tr>
     </thead>
 
@@ -45,13 +47,15 @@
         <tr>
             <td><a href="{{base_path}}/ability/{{ability.ability_name}}">{{ability.ability_name}}</td>
             <td>{{ability.description}}</td>
+            {% if user_logged_in.admini %}
             <td><a href="{{base_path}}/ability/{{ability.ability_id}}/edit" class="btn btn-primary">Edit</a></td>
             <td><a href="{{base_path}}/ability/{{ability.ability_id}}/delete" class="btn btn-danger">Delete</a></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
 </table>
 <p>
-    Available moves: ei oo viel 
+    
 </p>
 {% endblock %}

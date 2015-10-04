@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Ability search</h1>
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+<h1>Search ability </h1>
 
 <form method="get" action="{{base_path}}/ability/search">
     <div class="form-group">
@@ -22,8 +27,10 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Edit [Admin only]</th>
-            <th>Delete [Admin only]</th>
+            {% if user_logged_in.admini %}
+            <th>Edit</th>
+            <th>Delete</th>
+            {% endif %}
         </tr>
     </thead>
 
@@ -32,10 +39,14 @@
         <tr>
             <td><a href="{{base_path}}/ability/{{ability.ability_name}}">{{ability.ability_name}}</td>
             <td>{{ability.description}}</td>
-            <td><a href="{{base_path}}/ability/{{ability.ability_name}}/edit" class="btn btn-primary">Edit [Admin]</a></td>
-            <td><form method="post" action="{{base_path}}/ability/{{ability.ability_name}}/delete" style="display: inline-block;">
-                    <button type="submit" class="btn btn-danger">Delete [Admin]</button>
-                </form></td>
+            {% if user_logged_in.admini %}
+            <td><a href="{{base_path}}/ability/{{ability.ability_name}}/edit" class="btn btn-primary">Edit</a></td>
+            <td>
+                <form method="post" action="{{base_path}}/ability/{{ability.ability_name}}/delete" style="display: inline-block;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>

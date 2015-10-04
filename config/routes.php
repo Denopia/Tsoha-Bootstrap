@@ -3,9 +3,31 @@
 require_once 'app/controllers/species_controller.php';
 require_once 'app/controllers/abilities_controller.php';
 require_once 'app/controllers/moves_controller.php';
+require_once 'app/controllers/user_controller.php';
+require_once 'app/controllers/pokemon_controller.php';
 
 $routes->get('/', function() {
     SpeciesController::index();
+});
+
+$routes->get('/login', function() {
+    UserController::login();
+});
+
+$routes->post('/login', function() {
+    UserController::handle_login();
+});
+
+$routes->get('/logout', function() {
+    UserController::logout();
+});
+
+$routes->get('/register', function() {
+    UserController::register();
+});
+
+$routes->post('/register', function() {
+    UserController::handle_register();
 });
 
 $routes->get('/species', function() {
@@ -70,7 +92,36 @@ $routes->get('/ability/:name', function($name) {
     AbilityController::show($name);
 });
 
+$routes->get('/pokemon', function() {
+    PokemonController::index();
+});
 
+$routes->get('/pokemon/search', function() {
+    PokemonController::search();
+});
+$routes->post('/pokemon/new/add', function() {
+    PokemonController::create();
+});
+
+$routes->get('/pokemon/new/:number', function($number) {
+    PokemonController::newForm($number);
+});
+
+$routes->get('/pokemon/:id/edit', function($id) {
+    PokemonController::edit($id);
+});
+
+$routes->post('/pokemon/:id/save', function($id) {
+    PokemonController::update($id);
+});
+
+$routes->post('/pokemon/:id/delete', function($id) {
+    PokemonController::delete($id);
+});
+
+$routes->get('/pokemon/:id', function($id) {
+    PokemonController::show($id);
+});
 
 $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();

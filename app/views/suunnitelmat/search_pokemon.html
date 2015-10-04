@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
 {% if message %}
+
 <div class="alert alert-success">
     {{message}}
 </div>
 {% endif %}
-{% if error %}
-<div class="alert alert-danger">
-    {{error}}
-</div>
-{% endif %}
-<h1>Search Pokémon species </h1>
+<h1>{{user_logged_in.username}}'s Pokémon collection <a href="{{base_path}}/species" class="btn btn-success">Find more Pokémon</a></h1>
 
-<form method="get" action="{{base_path}}/species/search">
+
+
+<form method="get" action="{{base_path}}/pokemon/search">
     <div class="form-group">
-        <label>Name</label>
-        <input name="name" class="form-control" value="" type="text">
+        <label>Nickname</label>
+        <input name="nickname" class="form-control" value="" type="text">
+    </div>
+    <div class="form-group">
+        <label>Species name</label>
+        <input name="species_name" class="form-control" value="" type="text">
     </div>
 
     <!-- Check boxit ? -->
@@ -40,7 +42,6 @@
         <input type="checkbox" name="type[]" value="Dark">Dark 
         <input type="checkbox" name="type[]" value="Fairy">Fairy  
     </div>
-
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
@@ -49,50 +50,37 @@
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>Number</th>
+            <th>Pokédex number</th>
+            <th>Nickname</th>
             <th>Species</th>
             <th>Type</th>
-            <th>Abilities   </th>
-            <th>Base Hp</th>
-            <th>Base Attack</th>
-            <th>Base Defense</th>
-            <th>Base Sp.Attack</th>
-            <th>Base Sp.Defense</th>
-            <th>Base Speed</th>
-            {% if user_logged_in %}
-            <th>Add to your guys</th>
-            {% endif %}
-            {% if user_logged_in.admini %}
+            <th>Level</th>
+            <th>Nature</th>
+            <th>Ability</th>
             <th>Edit</th>
             <th>Delete</th>
-            {% endif %}
         </tr>
     </thead>
 
     <tbody>
-        {% for species in allSpecies %}
+        {% for pokemon in allPokemon %}
         <tr>
-            <td>#{{species.pokedex_number}}</td>
-            <td><a href="{{base_path}}/species/{{species.pokedex_number}}">{{species.species_name}}</td>
-            <td>{% for type in species.types %}{{type}}<br>{% endfor %}</td>
-            <td>{% for ability in species.abilities %}<a href="{{base_path}}/ability/{{ability.ability_name}}">{{ability.ability_name}}</a><br> {% endfor %}</td>
-            <td>{{species.base_hp}}</td>
-            <td>{{species.base_attack}}</td>
-            <td>{{species.base_defense}}</td>
-            <td>{{species.base_special_attack}}</td>
-            <td>{{species.base_special_defense}}</td>
-            <td>{{species.base_speed}}</td>
-            {% if user_logged_in %}
-            <td><a class="btn btn-success" href="{{base_path}}/pokemon/new/{{species.pokedex_number}}">Add</a></td>
-            {% endif %}
-            {% if user_logged_in.admini %}
-            <td><a href="{{base_path}}/species/{{species.pokedex_number}}/edit" class="btn btn-primary">Edit</a></td>
+            <td>#{{pokemon.speciesmodel.pokedex_number}}</td>
+            <td><a href="{{base_path}}/pokemon/{{pokemon.pokemon_id}}">{{pokemon.nickname}}</td>
+            <td> <a href="{{base_path}}/species/{{pokemon.speciesmodel.pokedex_number}}">{{pokemon.speciesmodel.species_name}}</td>
+
+            <td>{% for type in pokemon.speciesmodel.types %}{{type}}<br>{% endfor %}</td>
+            <td>{{pokemon.lvl}}</td>
+            <td>{{pokemon.nature_name}}</td>
             <td>
-                <form method="post" action="{{base_path}}/species/{{species.pokedex_number}}/delete" style="display: inline-block;">
+                <a href="{{base_path}}/ability/{{pokemon.current_ability_name}}">{{pokemon.current_ability_name}}</a>
+            </td>
+            <td><a href="{{base_path}}/pokemon/{{pokemon.pokemon_id}}/edit" class="btn btn-primary">Edit</a></td>
+            <td>
+                <form method="post" action="{{base_path}}/pokemon/{{pokemon.pokemon_id}}/delete" style="display: inline-block;">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
-            {% endif %}
         </tr>
         {% endfor %}
     </tbody>

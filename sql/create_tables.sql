@@ -2,7 +2,8 @@
 CREATE TABLE Trainer(
   trainer_id SERIAL PRIMARY KEY,
   username varchar(50) NOT NULL,
-  password varchar(50) NOT NULL
+  password varchar(50) NOT NULL,
+  admini boolean NOT NULL
 );
 
 CREATE TABLE Typing(
@@ -78,13 +79,8 @@ CREATE TABLE Pokemon(
   lvl int,
   nature INTEGER REFERENCES Nature(nature_id),
   current_ability INTEGER REFERENCES Ability(ability_id),
-  species INTEGER REFERENCES Species(species_id)
-);
-
-CREATE TABLE trainer_pokemon (
-  trainer_id INTEGER REFERENCES Trainer (trainer_id),
-  pokemon_id INTEGER REFERENCES Pokemon (pokemon_id),
-  id SERIAL PRIMARY KEY
+  species INTEGER REFERENCES Species(species_id),
+  trainer INTEGER REFERENCES Trainer (trainer_id)
 );
 
 CREATE TABLE species_all_moves (

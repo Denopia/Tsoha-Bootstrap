@@ -1,6 +1,6 @@
 -- Lisää INSERT INTO lauseet tähän tiedostoon
-INSERT INTO Trainer (username, password) VALUES ('Steven','Stone');
-INSERT INTO Trainer (username, password) VALUES ('Archie','Aqua');
+INSERT INTO Trainer (username, password, admini) VALUES ('Steven','Stone', true);
+INSERT INTO Trainer (username, password, admini) VALUES ('Archie','Aqua', false);
 
 INSERT INTO Typing (typing_name) VALUES ('Normal');
 INSERT INTO Typing (typing_name) VALUES ('Fighting');
@@ -56,4 +56,5 @@ INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_de
 INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing, ability1, ability2, ability3) VALUES ('Squirtle', 7, 44, 48, 65, 50, 64, 43, 11, 19, 6, 7, 1);
 INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing, ability1, ability2, ability3) VALUES ('Glaceon', 471, 65, 60, 110, 130, 95, 65, 15, 19, 8, 9, 1);
 
-INSERT INTO Pokemon(nickname, gender, lvl, nature, current_ability, species) VALUES ('Kukkaruukku', 'Male', 5, 6, 1, 1);
+INSERT INTO Pokemon (nickname, gender, hp, attack ,defense, special_attack, special_defense, speed, happiness, iv_hp, iv_attack, iv_defense, iv_special_attack, iv_special_defense, iv_speed, ev_hp, ev_attack, ev_defense, ev_special_attack, ev_special_defense, ev_speed, shiny, lvl, nature, current_ability, species, trainer)
+VALUES('Rika', 'Female', '1', '2', '3', '4', '5', '6', '255', '1', '2', '3', '4', '5', '6', '1', '2', '3', '4', '5', '6', true, '100', '2', '8', '4', '1');

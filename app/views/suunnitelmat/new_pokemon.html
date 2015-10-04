@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Add {{species.species_name}} to {{user_logged_in.username}}'s collection</h1>
+
+{% if errors %}
+<div class="alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<h3>Type: {% for type in species.types %}
+    {{type}} 
+    {% endfor %}
+</h3>
+
+<h3>Base Stats:</h3>
+<ul>
+    <li>HP: {{species.base_hp}}</li>
+    <li>Attack: {{species.base_attack}}</li>
+    <li>Defense: {{species.base_defense}}</li>
+    <li>Special Attack: {{species.base_special_attack}}</li>
+    <li>Special Defense: {{species.base_special_defense}}</li>
+    <li>Speed: {{species.base_speed}}</li>
+</ul>
+
+<form method="post" action="{{base_path}}/pokemon/new/add">
+    <div hidden class="form-group">
+        <label>Species ID</label>
+        <input name="species" value = "{{attributes.species}}" class="form-control" type="text">
+    </div>
+    <div class="form-group">
+        <label>Nickame</label>
+        <input name="nickname" value = "{{attributes.nickname}}" class="form-control" type="text">
+    </div>
+
+    <div class="form-group">
+        <label>Gender</label>
+        <input type="radio" name="gender" value="genderless" checked="checked" >Genderless
+        <input type="radio" name="gender" value="female">Female
+        <input type="radio" name="gender" value="male">Male
+    </div>
+
+    <div class="form-group">
+        <label>Shiny</label>
+        <input type="radio" name="shiny" value=1>Yes :]
+        <input type="radio" name="shiny" checked="checked" value=0>No
+    </div>
+
+    <div class="form-group">
+        <label>Ability</label>
+        {% for ability in abilities %}
+        <input type="radio" name="current_ability" checked="checked" value="{{ability.ability_id}}">{{ability.ability_name}}
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        <label>Nature</label>
+        <select name="nature">
+            {% for nature in natures %}
+            <option value="{{nature.nature_id}}">{{nature.nature_name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Level</label>
+        <input name="lvl" value="{{attributes.lvl}}" class="form-control" type="number" min="1" max="100">
+    </div>
+
+    <div class="form-group">
+        <label>Happiness</label>
+        <input name="happiness" value = "{{attributes.happiness}}" class="form-control" type="number" min="0" max="255">
+    </div>
+
+    <div class="form-group">
+        <label>Hp</label>
+        <input name="hp" value = "{{attributes.hp}}" class="form-control" type="number" min="1" max="999">
+    </div>
+
+    <div class="form-group">
+        <label>Attack</label>
+        <input name="attack" value = "{{attributes.attack}}" class="form-control" type="number" min="1" max="999">
+    </div>
+
+    <div class="form-group">
+        <label>Defense</label>
+        <input name="defense" value = "{{attributes.defense}}" class="form-control" type="number" min="1" max="999">
+    </div>
+
+    <div class="form-group">
+        <label>Special attack</label>
+        <input name="special_attack" value = "{{attributes.special_attack}}" class="form-control" type="number" min="1" max="999">
+    </div>
+
+    <div class="form-group">
+        <label>Special defense</label>
+        <input name="special_defense" value = "{{attributes.special_defense}}" class="form-control" type="number" min="1" max="999">
+    </div>
+
+    <div class="form-group">
+        <label>Speed</label>
+        <input name="speed" value = "{{attributes.speed}}" class="form-control" type="number" min="1" max="999">
+    </div>
+
+    <div class="form-group">
+        <label>Hp EVs</label>
+        <input name="ev_hp" value = "{{attributes.ev_hp}}" class="form-control" type="number" min="0" max="255">
+    </div>
+
+    <div class="form-group">
+        <label>Attack EVs </label>
+        <input name="ev_attack" value = "{{attributes.ev_attack}}" class="form-control" type="number" min="0" max="255">
+    </div>
+
+    <div class="form-group">
+        <label>Defense EVs</label>
+        <input name="ev_defense" value = "{{attributes.ev_defense}}" class="form-control" type="number" min="0" max="255">
+    </div>
+
+    <div class="form-group">
+        <label>Special attack EVs</label>
+        <input name="ev_special_attack" value = "{{attributes.ev_special_attack}}" class="form-control" type="number" min="0" max="255">
+    </div>
+
+    <div class="form-group">
+        <label>Special defense EVs</label>
+        <input name="ev_special_defense" value = "{{attributes.ev_special_defense}}" class="form-control" type="number" min="0" max="255">
+    </div>
+
+    <div class="form-group">
+        <label>Speed EVs</label>
+        <input name="ev_speed" value = "{{attributes.ev_speed}}" class="form-control" type="number" min="0" max="255">
+    </div>
+
+    <div class="form-group">
+        <label>Hp IVs</label>
+        <input name="iv_hp" value = "{{attributes.iv_hp}}" class="form-control" type="number" min="0" max="31">
+    </div>
+
+    <div class="form-group">
+        <label>Attack IVs </label>
+        <input name="iv_attack" value = "{{attributes.iv_attack}}" class="form-control" type="number" min="0" max="31">
+    </div>
+
+    <div class="form-group">
+        <label>Defense IVs</label>
+        <input name="iv_defense" value = "{{attributes.iv_defense}}" class="form-control" type="number" min="0" max="31">
+    </div>
+
+    <div class="form-group">
+        <label>Special attack IVs</label>
+        <input name="iv_special_attack" value = "{{attributes.iv_special_attack}}" class="form-control" type="number" min="0" max="31">
+    </div>
+
+    <div class="form-group">
+        <label>Special defense IVs</label>
+        <input name="iv_special_defense" value = "{{attributes.iv_special_defense}}" class="form-control" type="number" min="0" max="31">
+    </div>
+
+    <div class="form-group">
+        <label>Speed IVs</label>
+        <input name="iv_speed" value = "{{attributes.iv_speed}}" class="form-control" type="number" min="0" max="31">
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</form>
+{% endblock %}
