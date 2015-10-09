@@ -30,51 +30,51 @@
 
     <div class="form-group">
         <label>Primary type</label>
-        <select value = "{{attributes.primary_typing}}" name="primary">
+        <select name="primary">
             <option value=19>-</option>
-            <option value=1 >Normal</option>
-            <option value=2>Fighting</option>
-            <option value=3>Flying</option>
-            <option value=4>Poison</option>
-            <option value=5>Ground</option>
-            <option value=6>Rock</option>
-            <option value=7>Bug</option>
-            <option value=8>Ghost</option>
-            <option value=9>Steel</option>
-            <option value=10>Fire</option>
-            <option value=11>Water</option>
-            <option value=12>Grass</option>
-            <option value=13>Electric</option>
-            <option value=14>Psychic</option>
-            <option value=15>Ice</option>
-            <option value=16>Dragon</option>
-            <option value=17>Dark</option>
-            <option value=18>Fairy</option>        
+            {% if attributes.primary_typing == 1 %}<option value=1 selected >Normal</option>{%else%}<option value=1 >Normal</option>{%endif%}          
+            {% if attributes.primary_typing == 2 %}<option value=2 selected >Fighting</option>{%else%}<option value=2>Fighting</option>{%endif%}   
+            {% if attributes.primary_typing == 3 %}<option value=3 selected >Flying</option>{%else%}<option value=3>Flying</option>{%endif%}   
+            {% if attributes.primary_typing == 4 %}<option value=4 selected >Poison</option>{%else%}<option value=4>Poison</option>{%endif%}   
+            {% if attributes.primary_typing == 5 %}<option value=5 selected >Ground</option>{%else%}<option value=5>Ground</option>{%endif%}   
+            {% if attributes.primary_typing == 6 %}<option value=6 selected >Rock</option>{%else%}<option value=6>Rock</option>{%endif%}   
+            {% if attributes.primary_typing == 7 %}<option value=7 selected >Bug</option>{%else%}<option value=7>Bug</option>{%endif%}   
+            {% if attributes.primary_typing == 8 %}<option value=8 selected >Ghost</option>{%else%}<option value=8>Ghost</option>{%endif%}   
+            {% if attributes.primary_typing == 9 %}<option value=9 selected >Steel</option>{%else%}<option value=9>Steel</option>{%endif%}   
+            {% if attributes.primary_typing == 10 %}<option value=10 selected >Fire</option>{%else%}<option value=10>Fire</option>{%endif%}   
+            {% if attributes.primary_typing == 11 %}<option value=11 selected >Water</option>{%else%}<option value=11>Water</option>{%endif%}   
+            {% if attributes.primary_typing == 12 %}<option value=12 selected >Grass</option>{%else%}<option value=12>Grass</option>{%endif%}   
+            {% if attributes.primary_typing == 13 %}<option value=13 selected >Electric</option>{%else%}<option value=13>Electric</option>{%endif%}   
+            {% if attributes.primary_typing == 14 %}<option value=14 selected >Psychic</option>{%else%}<option value=14>Psychic</option>{%endif%}   
+            {% if attributes.primary_typing == 15 %}<option value=15 selected >Ice</option>{%else%}<option value=15>Ice</option>{%endif%}   
+            {% if attributes.primary_typing == 16 %}<option value=16 selected >Dragon</option>{%else%}<option value=16>Dragon</option>{%endif%}   
+            {% if attributes.primary_typing == 17 %}<option value=17 selected >Dark</option>{%else%}<option value=17>Dark</option>{%endif%}   
+            {% if attributes.primary_typing == 18 %}<option value=18 selected >Fairy</option>{%else%}<option value=18>Fairy</option>{%endif%}   
         </select>
     </div>
 
     <div class="form-group">
         <label>Secondary type</label>
-        <select value = "{{attributes.secondary_typing}}" name="secondary">
+        <select name="secondary">
             <option value=19>-</option>
-            <option value=1>Normal</option>
-            <option value=2>Fighting</option>
-            <option value=3>Flying</option>
-            <option value=4>Poison</option>
-            <option value=5>Ground</option>
-            <option value=6>Rock</option>
-            <option value=7>Bug</option>
-            <option value=8>Ghost</option>
-            <option value=9>Steel</option>
-            <option value=10>Fire</option>
-            <option value=11>Water</option>
-            <option value=12>Grass</option>
-            <option value=13>Electric</option>
-            <option value=14>Psychic</option>
-            <option value=15>Ice</option>
-            <option value=16>Dragon</option>
-            <option value=17>Dark</option>
-            <option value=18>Fairy</option>
+            {% if attributes.secondary_typing == 1 %}<option value=1 selected >Normal</option>{%else%}<option value=1 >Normal</option>{%endif%}          
+            {% if attributes.secondary_typing == 2 %}<option value=2 selected >Fighting</option>{%else%}<option value=2>Fighting</option>{%endif%}   
+            {% if attributes.secondary_typing == 3 %}<option value=3 selected >Flying</option>{%else%}<option value=3>Flying</option>{%endif%}   
+            {% if attributes.secondary_typing == 4 %}<option value=4 selected >Poison</option>{%else%}<option value=4>Poison</option>{%endif%}   
+            {% if attributes.secondary_typing == 5 %}<option value=5 selected >Ground</option>{%else%}<option value=5>Ground</option>{%endif%}   
+            {% if attributes.secondary_typing == 6 %}<option value=6 selected >Rock</option>{%else%}<option value=6>Rock</option>{%endif%}   
+            {% if attributes.secondary_typing == 7 %}<option value=7 selected >Bug</option>{%else%}<option value=7>Bug</option>{%endif%}   
+            {% if attributes.secondary_typing == 8 %}<option value=8 selected >Ghost</option>{%else%}<option value=8>Ghost</option>{%endif%}   
+            {% if attributes.secondary_typing == 9 %}<option value=9 selected >Steel</option>{%else%}<option value=9>Steel</option>{%endif%}   
+            {% if attributes.secondary_typing == 10 %}<option value=10 selected >Fire</option>{%else%}<option value=10>Fire</option>{%endif%}   
+            {% if attributes.secondary_typing == 11 %}<option value=11 selected >Water</option>{%else%}<option value=11>Water</option>{%endif%}   
+            {% if attributes.secondary_typing == 12 %}<option value=12 selected >Grass</option>{%else%}<option value=12>Grass</option>{%endif%}   
+            {% if attributes.secondary_typing == 13 %}<option value=13 selected >Electric</option>{%else%}<option value=13>Electric</option>{%endif%}   
+            {% if attributes.secondary_typing == 14 %}<option value=14 selected >Psychic</option>{%else%}<option value=14>Psychic</option>{%endif%}   
+            {% if attributes.secondary_typing == 15 %}<option value=15 selected >Ice</option>{%else%}<option value=15>Ice</option>{%endif%}   
+            {% if attributes.secondary_typing == 16 %}<option value=16 selected >Dragon</option>{%else%}<option value=16>Dragon</option>{%endif%}   
+            {% if attributes.secondary_typing == 17 %}<option value=17 selected >Dark</option>{%else%}<option value=17>Dark</option>{%endif%}   
+            {% if attributes.secondary_typing == 18 %}<option value=18 selected >Fairy</option>{%else%}<option value=18>Fairy</option>{%endif%} 
         </select>
     </div>
 
@@ -82,28 +82,40 @@
         <label>1st ability</label>
         <select name="ability1">
             <option value="1">-</option>
-            {% for ability in abilities %}
+            {% for ability in abilities %}      
+            {% if attributes.ability1_id == ability.ability_id %}
+            <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+            {%else%}
             <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+            {%endif%}    
             {% endfor %}
         </select>
     </div>
 
     <div class="form-group">
         <label>2nd ability</label>
-        <select value = "{{attributes.ability2_id}}" name="ability2">
+        <select name="ability2">
             <option value="1">-</option>
-            {% for ability in abilities %}
+           {% for ability in abilities %}
+            {% if attributes.ability2_id == ability.ability_id %}
+            <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+            {%else%}
             <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+            {%endif%}
             {% endfor %}
         </select>
     </div>
 
     <div class="form-group">
         <label>3rd ability</label>
-        <select value = "{{attributes.ability3_id}}" name="ability3">
+        <select name="ability3">
             <option value="1">-</option>
             {% for ability in abilities %}
+            {% if attributes.ability3_id == ability.ability_id %}
+            <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+            {%else%}
             <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+            {%endif%}
             {% endfor %}
         </select>
     </div>

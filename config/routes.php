@@ -99,6 +99,7 @@ $routes->get('/pokemon', function() {
 $routes->get('/pokemon/search', function() {
     PokemonController::search();
 });
+
 $routes->post('/pokemon/new/add', function() {
     PokemonController::create();
 });

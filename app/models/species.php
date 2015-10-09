@@ -32,7 +32,7 @@ class Species extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_name', 'validate_number', 'validate_types', 'validate_abilities', 'validate_base_stats');
+        $this->validators = array('validate_name', 'validate_types', 'validate_abilities', 'validate_base_stats');
     }
 
     /**
@@ -371,7 +371,9 @@ species.species_id as id,
 species.pokedex_number as number, 
 species.species_name as name,
 a.typing_name as primary, 
-b.typing_name as secondary, 
+b.typing_name as secondary,
+a.typing_id as primary_id, 
+b.typing_id as secondary_id, 
 c.ability_name as ability1,  
 d.ability_name as ability2, 
 e.ability_name as ability3, 
@@ -418,24 +420,26 @@ ORDER BY number;");
                 $types[] = $row['secondary'];
             }
             $allSpecies[] = new Species(array(
-                'species_id' => $row['id'],
-                'species_name' => $row['name'],
-                'species_original_name' => $row['name'],
-                'pokedex_number' => $row['number'],
-                'base_hp' => $row['hp'],
-                'base_attack' => $row['attack'],
-                'base_defense' => $row['defense'],
-                'base_special_attack' => $row['special_attack'],
-                'base_special_defense' => $row['special_defense'],
-                'base_speed' => $row['speed'],
-                'types' => $types,
-                'abilities' => $abilities,
-                'ability1_id' => $row['ability1_id'],
-                'ability2_id' => $row['ability2_id'],
-                'ability3_id' => $row['ability3_id'],
-                'ability1_name' => $row['ability1'],
-                'ability2_name' => $row['ability2'],
-                'ability3_name' => $row['ability3']
+            'species_id' => $row['id'],
+            'species_name' => $row['name'],
+            'species_original_name' => $row['name'],
+            'pokedex_number' => $row['number'],
+            'base_hp' => $row['hp'],
+            'base_attack' => $row['attack'],
+            'base_defense' => $row['defense'],
+            'base_special_attack' => $row['special_attack'],
+            'base_special_defense' => $row['special_defense'],
+            'base_speed' => $row['speed'],
+            'types' => $types,
+            'primary_typing' =>$row['primary_id'],
+            'secondary_typing' =>$row['secondary_id'],
+            'abilities' => $abilities,
+            'ability1_id' => $row['ability1_id'],
+            'ability2_id' => $row['ability2_id'],
+            'ability3_id' => $row['ability3_id'],
+            'ability1_name' => $row['ability1'],
+            'ability2_name' => $row['ability2'],
+            'ability3_name' => $row['ability3']
             ));
             unset($abilities);
             unset($types);
@@ -570,7 +574,7 @@ WHERE a.rownum = 1
 AND(
 a.ability1 = :name
 OR a.ability2 = :name
-OR a.ability2 = :name
+OR a.ability3 = :name
 )
 ORDER BY number;");
         $query->execute(array('name' => $name));

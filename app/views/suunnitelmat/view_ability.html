@@ -5,15 +5,15 @@
     {{message}}
 </div>
 {% endif %}
-<h1>{{ability.ability_name}}</h1>
-{% if user_logged_in.admini %}
-<a href="{{base_path}}/ability/{{ability.ability_name}}/edit" class="btn btn-primary">Edit</a>
-<form method="post" action="{{base_path}}/ability/{{ability.ability_name}}/delete" style="display: inline-block;">
-    <button type="submit" class="btn btn-danger">Delete</button>
-</form>
-{% endif %}
-
-<h3>Description:</h3>
+<h1>{{ability.ability_name}}
+    {% if user_logged_in.admini %}
+    <a href="{{base_path}}/ability/{{ability.ability_name}}/edit" class="btn btn-primary">Edit</a>
+    <form method="post" action="{{base_path}}/ability/{{ability.ability_name}}/delete" style="display: inline-block;">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    {% endif %}
+</h1>
+<h3>Effect:</h3>
 <p>{{ability.description}}</p>
 
 <h3>Pokémon with {{ability.ability_name}}:</h3>

@@ -56,6 +56,7 @@ class Ability extends BaseModel {
      */
     public function delete() {
         SpeciesController::removeAbilityFromAll($this->ability_id, $this->ability_name);
+        PokemonController::removeAbilityFromAll($this->ability_id, $this->ability_name);
         $query = DB::connection()->prepare('DELETE FROM Ability WHERE ability_name = :name');
         $query->execute(array('name' => $this->ability_name));
     }

@@ -61,7 +61,7 @@ class Pokemon extends BaseModel {
      * @return type
      */
     public function validate_lvl() {
-        $errors = parent::validate_integer($this->happiness, '0', '100', 'Level');
+        $errors = parent::validate_integer($this->lvl, '0', '100', 'Level');
         return $errors;
     }
 
@@ -134,7 +134,7 @@ class Pokemon extends BaseModel {
                 . 'species = :species '
                 . 'WHERE pokemon_id = :pokemon_id;');
         $query->execute(array(
-            'nickname' => $this->species_name,
+            'nickname' => $this->nickname,
             'gender' => $this->gender,
             'hp' => $this->hp,
             'attack' => $this->attack,
@@ -266,6 +266,78 @@ class Pokemon extends BaseModel {
         $query->execute(array('pokemon_id' => $this->pokemon_id));
     }
 
+    public function removeAllWithThisSpecies($number) {
+        $species = Species::findByNumber($number);
+        $query = DB::connection()->prepare('DELETE FROM Pokemon WHERE species = :n');
+        $query->execute(array('n' => $species->species_id));
+    }
+    
+    public static function removeAbilityFromAll($id, $name) {
+        $rows = self::findAll();
+        foreach ($rows as $row) {
+            if ($row->current_ability_name == $name) {
+                $query = DB::connection()->prepare('UPDATE Pokemon SET current_ability = :a WHERE pokemon_id = :id');
+                $query->execute(array('a' => '1', 'id' => $row->pokemon_id));
+            }
+        }
+    }
+    
+    public function findAll() {
+        $query = DB::connection()->prepare("SELECT * FROM Pokemon ORDER BY nickname");
+        $query->execute();
+        $rows = $query->fetchAll();
+        $allPokemon = array();
+        foreach ($rows as $row) {
+            $speciesmodel = Species::findById($row['species']);
+            $query2 = DB::connection()->prepare("SELECT * FROM Ability WHERE ability_id = :aid");
+            $query2->execute(array('aid' => $row['current_ability']));
+            $rows2 = $query2->fetchAll();
+            foreach ($rows2 as $row2) {
+                $current_ability = $row2['ability_name'];
+            }
+            $query3 = DB::connection()->prepare("SELECT * FROM Nature WHERE nature_id = :nid");
+            $query3->execute(array('nid' => $row['nature']));
+            $rows3 = $query3->fetchAll();
+            foreach ($rows3 as $row3) {
+                $current_nature = $row3['nature_name'];
+            }
+            $allPokemon[] = new Pokemon(array(
+                'pokemon_id' => $row['pokemon_id'],
+                'nickname' => $row['nickname'],
+                'gender' => $row['gender'],
+                'hp' => $row['hp'],
+                'attack' => $row['attack'],
+                'defense' => $row['defense'],
+                'special_attack' => $row['special_attack'],
+                'special_defense' => $row['special_defense'],
+                'speed' => $row['speed'],
+                'happiness' => $row['happiness'],
+                'iv_hp' => $row['iv_hp'],
+                'iv_attack' => $row['iv_attack'],
+                'iv_defense' => $row['iv_defense'],
+                'iv_special_attack' => $row['iv_special_attack'],
+                'iv_special_defense' => $row['iv_special_defense'],
+                'iv_speed' => $row['iv_speed'],
+                'ev_hp' => $row['ev_hp'],
+                'ev_attack' => $row['ev_attack'],
+                'ev_defense' => $row['ev_defense'],
+                'ev_special_attack' => $row['ev_special_attack'],
+                'ev_special_defense' => $row['ev_special_defense'],
+                'ev_speed' => $row['ev_speed'],
+                'shiny' => $row['shiny'],
+                'lvl' => $row['lvl'],
+                'nature' => $row['nature'],
+                'current_ability' => $row['current_ability'],
+                'species' => $row['species'],
+                'trainer' => $row['trainer'],
+                'speciesmodel' => $speciesmodel,
+                'current_ability_name' => $current_ability,
+                'nature_name' => $current_nature
+            ));
+        }
+        return $allPokemon;
+    }
+
     /**
      * Etsii tietokannasta pokemoneja kouluttajan id:n perusteella
      * @param type $trainer
@@ -291,6 +363,7 @@ class Pokemon extends BaseModel {
                 $current_nature = $row3['nature_name'];
             }
             $allPokemon[] = new Pokemon(array(
+                'pokemon_id' => $row['pokemon_id'],
                 'nickname' => $row['nickname'],
                 'gender' => $row['gender'],
                 'hp' => $row['hp'],
@@ -398,10 +471,24 @@ class Pokemon extends BaseModel {
         $query->execute(array('id' => $id));
         $rows = $query->fetchAll();
         $allPokemon = array();
+
         foreach ($rows as $row) {
+            $query2 = DB::connection()->prepare("SELECT * FROM Ability WHERE ability_id = :aid");
+            $query2->execute(array('aid' => $row['current_ability']));
+            $rows2 = $query2->fetchAll();
+            foreach ($rows2 as $row2) {
+                $current_ability = $row2['ability_name'];
+            }
+            $query3 = DB::connection()->prepare("SELECT * FROM Nature WHERE nature_id = :nid");
+            $query3->execute(array('nid' => $row['nature']));
+            $rows3 = $query3->fetchAll();
+            foreach ($rows3 as $row3) {
+                $current_nature = $row3['nature_name'];
+            }
             $speciesmodel = Species::findById($row['species']);
             $allPokemon[] = new Pokemon(array(
-                'nickname' => $row['species_name'],
+                'pokemon_id' => $row['pokemon_id'],
+                'nickname' => $row['nickname'],
                 'gender' => $row['gender'],
                 'hp' => $row['hp'],
                 'attack' => $row['attack'],
@@ -428,7 +515,9 @@ class Pokemon extends BaseModel {
                 'current_ability' => $row['current_ability'],
                 'species' => $row['species'],
                 'trainer' => $row['trainer'],
-                'speciesmodel' => $speciesmodel
+                'speciesmodel' => $speciesmodel,
+                'nature_name' => $current_nature,
+                'current_ability_name' => $current_ability
             ));
         }
         return $allPokemon[0];

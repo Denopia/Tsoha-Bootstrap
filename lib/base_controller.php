@@ -22,16 +22,24 @@ class BaseController {
             Redirect::to('/login', array('message' => 'You need to log in first :]'));
         }
     }
-    
+
+    public static function check_user_id($id) {
+        if (!isset($_SESSION['user'])) {
+            Redirect::to('/login', array('message' => 'You need to log in first :]'));
+        } else if ($_SESSION['user'] != $id) {
+            Redirect::to('/pokemon', array('message' => 'Not your Pokémon :]'));
+        }
+    }
+
     public static function check_logged_in_already() {
         if (isset($_SESSION['user'])) {
             Redirect::to('/species', array('error' => 'You are already logged in'));
         }
     }
-    
+
     public static function check_admin() {
         if (!isset($_SESSION['user']) || !self::get_user_logged_in()->admini) {
-            Redirect::to('/species', array('error' => 'You don\'t have rights to do that :[' ));
+            Redirect::to('/species', array('error' => 'You don\'t have rights to do that :['));
         }
     }
 

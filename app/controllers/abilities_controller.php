@@ -63,9 +63,9 @@ class AbilityController extends BaseController {
      * @param type $name taidon nimi
      */
     public static function show($name) {
-        $allAbilities = Ability::findByName($name);
+        $ability = Ability::findByName($name);
         $allSpecies = Species::findByAbility($name);
-        View::make('suunnitelmat/view_ability.html', array('ability' => $allAbilities, 'allSpecies' => $allSpecies));
+        View::make('suunnitelmat/view_ability.html', array('ability' => $ability, 'allSpecies' => $allSpecies));
     }
 
     /**

@@ -5,20 +5,22 @@
     {{message}}
 </div>
 {% endif %}
-<h1>#{{species.pokedex_number}} {{species.species_name}}</h1>
-{% if user_logged_in %}
-<a href="{{base_path}}/pokemon/new/{{species.pokedex_number}}" class="btn btn-success">Add to your guys!</a>
-{% endif %}
-{% if user_logged_in.admini %}
-<a href="{{base_path}}/species/{{species.pokedex_number}}/edit" class="btn btn-primary">Edit</a>
-<form method="post" action="{{base_path}}/species/{{species.pokedex_number}}/delete" style="display: inline-block;">
-    <button type="submit" class="btn btn-danger">Delete</button>
-</form>
-{% endif %}
+<h1>#{{species.pokedex_number}} {{species.species_name}}
+    {% if user_logged_in %}
+    <a href="{{base_path}}/pokemon/new/{{species.pokedex_number}}" class="btn btn-success">Add to your guys!</a>
+    {% endif %}
+    {% if user_logged_in.admini %}
+    <a href="{{base_path}}/species/{{species.pokedex_number}}/edit" class="btn btn-primary">Edit</a>
+    <form method="post" action="{{base_path}}/species/{{species.pokedex_number}}/delete" style="display: inline-block;">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    {% endif %}
+</h1>
 <h3>Type: {% for type in species.types %}
     {{type}} 
     {% endfor %}
 </h3>
+
 
 <h3>Base Stats:</h3>
 <ul>
@@ -55,7 +57,8 @@
         {% endfor %}
     </tbody>
 </table>
+<h3>Pokédex entry: [description]</h3>
 <p>
-    
+
 </p>
 {% endblock %}

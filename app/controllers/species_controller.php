@@ -157,6 +157,7 @@ class SpeciesController extends BaseController {
      */
     public static function delete($number) {
         self::check_admin();
+        Pokemon::removeAllWithThisSpecies($number);
         $species = new Species(array('pokedex_number' => $number));
         $species->delete();
         Redirect::to('/species', array('message' => 'Species removed from database'));

@@ -39,22 +39,39 @@
     </div>
 
     <div class="form-group">
-        <label>Gender</label>
-        <input type="radio" name="gender" value="genderless" checked="checked" >Genderless
-        <input type="radio" name="gender" value="female">Female
-        <input type="radio" name="gender" value="male">Male
+        <label>Gender</label>      
+        <input type="radio" name="gender" value="Genderless" checked="checked" >Genderless
+        {%if attributes.gender == "Female"%}
+        <input type="radio" name="gender"  checked="checked" value="Female">Female
+        {%else%}
+        <input type="radio" name="gender" value="Female">Female
+        {%endif%}
+        {%if attributes.gender == "Male"%}
+        <input type="radio" name="gender" checked="checked" value="Male">Male
+        {%else%}
+        <input type="radio" name="gender" value="Male">Male
+        {%endif%}    
     </div>
 
     <div class="form-group">
         <label>Shiny</label>
-        <input type="radio" name="shiny" value=1>Yes :]
         <input type="radio" name="shiny" checked="checked" value=0>No
+        {%if attributes.shiny == 1%}
+        <input type="radio" name="shiny" checked="checked" value=1>Yes :]
+        {%else%}
+        <input type="radio" name="shiny" value=1>Yes :]
+        {%endif%}    
+
     </div>
 
     <div class="form-group">
         <label>Ability</label>
         {% for ability in abilities %}
+        {% if attributes.current_ability == ability.ability_id %}
         <input type="radio" name="current_ability" checked="checked" value="{{ability.ability_id}}">{{ability.ability_name}}
+        {%else%}
+        <input type="radio" name="current_ability" value="{{ability.ability_id}}">{{ability.ability_name}}
+        {%endif%} 
         {% endfor %}
     </div>
 
@@ -62,7 +79,11 @@
         <label>Nature</label>
         <select name="nature">
             {% for nature in natures %}
+            {% if attributes.nature == nature.nature_id %}
+            <option selected value="{{nature.nature_id}}">{{nature.nature_name}}</option>
+            {%else%}
             <option value="{{nature.nature_id}}">{{nature.nature_name}}</option>
+            {%endif%}  
             {% endfor %}
         </select>
     </div>
