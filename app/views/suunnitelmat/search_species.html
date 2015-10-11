@@ -88,7 +88,7 @@
             {% if user_logged_in.admini %}
             <td><a href="{{base_path}}/species/{{species.pokedex_number}}/edit" class="btn btn-primary">Edit</a></td>
             <td>
-                <form method="post" action="{{base_path}}/species/{{species.pokedex_number}}/delete" style="display: inline-block;">
+                <form method="post" action="{{base_path}}/species/{{species.pokedex_number}}/delete" style="display: inline-block;" class="destroy-form" data-confirm="Are you sure you want to delete this species?">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>

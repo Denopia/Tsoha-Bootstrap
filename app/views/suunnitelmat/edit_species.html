@@ -12,146 +12,172 @@
 {% endif %}
 
 <form method="post" action="{{base_path}}/species/{{attributes.pokedex_number}}/save">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input name="name" value = "{{attributes.species_name}}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Pokédex number</label>
+                    <input name="number" value = "{{attributes.pokedex_number}}" class="form-control" type="number" min="1" max="999">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Primary type</label>
+                    <select name="primary">
+                        <option value=19>-</option>
+                        {% if attributes.primary_typing == 1 %}<option value=1 selected >Normal</option>{%else%}<option value=1 >Normal</option>{%endif%}          
+                        {% if attributes.primary_typing == 2 %}<option value=2 selected >Fighting</option>{%else%}<option value=2>Fighting</option>{%endif%}   
+                        {% if attributes.primary_typing == 3 %}<option value=3 selected >Flying</option>{%else%}<option value=3>Flying</option>{%endif%}   
+                        {% if attributes.primary_typing == 4 %}<option value=4 selected >Poison</option>{%else%}<option value=4>Poison</option>{%endif%}   
+                        {% if attributes.primary_typing == 5 %}<option value=5 selected >Ground</option>{%else%}<option value=5>Ground</option>{%endif%}   
+                        {% if attributes.primary_typing == 6 %}<option value=6 selected >Rock</option>{%else%}<option value=6>Rock</option>{%endif%}   
+                        {% if attributes.primary_typing == 7 %}<option value=7 selected >Bug</option>{%else%}<option value=7>Bug</option>{%endif%}   
+                        {% if attributes.primary_typing == 8 %}<option value=8 selected >Ghost</option>{%else%}<option value=8>Ghost</option>{%endif%}   
+                        {% if attributes.primary_typing == 9 %}<option value=9 selected >Steel</option>{%else%}<option value=9>Steel</option>{%endif%}   
+                        {% if attributes.primary_typing == 10 %}<option value=10 selected >Fire</option>{%else%}<option value=10>Fire</option>{%endif%}   
+                        {% if attributes.primary_typing == 11 %}<option value=11 selected >Water</option>{%else%}<option value=11>Water</option>{%endif%}   
+                        {% if attributes.primary_typing == 12 %}<option value=12 selected >Grass</option>{%else%}<option value=12>Grass</option>{%endif%}   
+                        {% if attributes.primary_typing == 13 %}<option value=13 selected >Electric</option>{%else%}<option value=13>Electric</option>{%endif%}   
+                        {% if attributes.primary_typing == 14 %}<option value=14 selected >Psychic</option>{%else%}<option value=14>Psychic</option>{%endif%}   
+                        {% if attributes.primary_typing == 15 %}<option value=15 selected >Ice</option>{%else%}<option value=15>Ice</option>{%endif%}   
+                        {% if attributes.primary_typing == 16 %}<option value=16 selected >Dragon</option>{%else%}<option value=16>Dragon</option>{%endif%}   
+                        {% if attributes.primary_typing == 17 %}<option value=17 selected >Dark</option>{%else%}<option value=17>Dark</option>{%endif%}   
+                        {% if attributes.primary_typing == 18 %}<option value=18 selected >Fairy</option>{%else%}<option value=18>Fairy</option>{%endif%}   
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Secondary type</label>
+                    <select name="secondary">
+                        <option value=19>-</option>
+                        {% if attributes.secondary_typing == 1 %}<option value=1 selected >Normal</option>{%else%}<option value=1 >Normal</option>{%endif%}          
+                        {% if attributes.secondary_typing == 2 %}<option value=2 selected >Fighting</option>{%else%}<option value=2>Fighting</option>{%endif%}   
+                        {% if attributes.secondary_typing == 3 %}<option value=3 selected >Flying</option>{%else%}<option value=3>Flying</option>{%endif%}   
+                        {% if attributes.secondary_typing == 4 %}<option value=4 selected >Poison</option>{%else%}<option value=4>Poison</option>{%endif%}   
+                        {% if attributes.secondary_typing == 5 %}<option value=5 selected >Ground</option>{%else%}<option value=5>Ground</option>{%endif%}   
+                        {% if attributes.secondary_typing == 6 %}<option value=6 selected >Rock</option>{%else%}<option value=6>Rock</option>{%endif%}   
+                        {% if attributes.secondary_typing == 7 %}<option value=7 selected >Bug</option>{%else%}<option value=7>Bug</option>{%endif%}   
+                        {% if attributes.secondary_typing == 8 %}<option value=8 selected >Ghost</option>{%else%}<option value=8>Ghost</option>{%endif%}   
+                        {% if attributes.secondary_typing == 9 %}<option value=9 selected >Steel</option>{%else%}<option value=9>Steel</option>{%endif%}   
+                        {% if attributes.secondary_typing == 10 %}<option value=10 selected >Fire</option>{%else%}<option value=10>Fire</option>{%endif%}   
+                        {% if attributes.secondary_typing == 11 %}<option value=11 selected >Water</option>{%else%}<option value=11>Water</option>{%endif%}   
+                        {% if attributes.secondary_typing == 12 %}<option value=12 selected >Grass</option>{%else%}<option value=12>Grass</option>{%endif%}   
+                        {% if attributes.secondary_typing == 13 %}<option value=13 selected >Electric</option>{%else%}<option value=13>Electric</option>{%endif%}   
+                        {% if attributes.secondary_typing == 14 %}<option value=14 selected >Psychic</option>{%else%}<option value=14>Psychic</option>{%endif%}   
+                        {% if attributes.secondary_typing == 15 %}<option value=15 selected >Ice</option>{%else%}<option value=15>Ice</option>{%endif%}   
+                        {% if attributes.secondary_typing == 16 %}<option value=16 selected >Dragon</option>{%else%}<option value=16>Dragon</option>{%endif%}   
+                        {% if attributes.secondary_typing == 17 %}<option value=17 selected >Dark</option>{%else%}<option value=17>Dark</option>{%endif%}   
+                        {% if attributes.secondary_typing == 18 %}<option value=18 selected >Fairy</option>{%else%}<option value=18>Fairy</option>{%endif%} 
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>1st ability</label>
+                    <select name="ability1">
+                        <option value="1">-</option>
+                        {% for ability in abilities %}      
+                        {% if attributes.ability1_id == ability.ability_id %}
+                        <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+                        {%else%}
+                        <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+                        {%endif%}    
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>2nd ability</label>
+                    <select name="ability2">
+                        <option value="1">-</option>
+                        {% for ability in abilities %}
+                        {% if attributes.ability2_id == ability.ability_id %}
+                        <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+                        {%else%}
+                        <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+                        {%endif%}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>3rd ability</label>
+                    <select name="ability3">
+                        <option value="1">-</option>
+                        {% for ability in abilities %}
+                        {% if attributes.ability3_id == ability.ability_id %}
+                        <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+                        {%else%}
+                        <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+                        {%endif%}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Base hp</label>
+                    <input name="hp" value = "{{attributes.base_hp}}" class="form-control" type="number" min="1" max="999">
+                </div>
+
+                <div class="form-group">
+                    <label>Base attack</label>
+                    <input name="attack" value = "{{attributes.base_attack}}"class="form-control" type="number" min="1" max="999">
+                </div>
+
+                <div class="form-group">
+                    <label>Base defense</label>
+                    <input name="defense" value = "{{attributes.base_defense}}"class="form-control" type="number" min="1" max="999">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Base special attack</label>
+                    <input name="spattack" value = "{{attributes.base_special_attack}}"class="form-control" type="number" min="1" max="999">
+                </div>
+
+                <div class="form-group">
+                    <label>Base special defense</label>
+                    <input name="spdefense" value = "{{attributes.base_special_defense}}"class="form-control" type="number" min="1" max="999">
+                </div>
+
+                <div class="form-group">
+                    <label>Base speed</label>
+                    <input name="speed" value = "{{attributes.base_speed}}"class="form-control" type="number" min="1" max="999">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="form-group">
         <input name="oname" value = "{{attributes.species_original_name}}" class="form-control" type="hidden" >
     </div>
     <div class="form-group">
         <input name="id" value = "{{attributes.species_id}}" class="form-control" type="hidden" >
-    </div>
-    <div class="form-group">
-        <label>Name</label>
-        <input name="name" value = "{{attributes.species_name}}" class="form-control" type="text">
-    </div>
-
-    <div class="form-group">
-        <label>Pokédex number</label>
-        <input name="number" value = "{{attributes.pokedex_number}}" class="form-control" type="number" min="1" max="999">
-    </div>
-
-    <div class="form-group">
-        <label>Primary type</label>
-        <select name="primary">
-            <option value=19>-</option>
-            {% if attributes.primary_typing == 1 %}<option value=1 selected >Normal</option>{%else%}<option value=1 >Normal</option>{%endif%}          
-            {% if attributes.primary_typing == 2 %}<option value=2 selected >Fighting</option>{%else%}<option value=2>Fighting</option>{%endif%}   
-            {% if attributes.primary_typing == 3 %}<option value=3 selected >Flying</option>{%else%}<option value=3>Flying</option>{%endif%}   
-            {% if attributes.primary_typing == 4 %}<option value=4 selected >Poison</option>{%else%}<option value=4>Poison</option>{%endif%}   
-            {% if attributes.primary_typing == 5 %}<option value=5 selected >Ground</option>{%else%}<option value=5>Ground</option>{%endif%}   
-            {% if attributes.primary_typing == 6 %}<option value=6 selected >Rock</option>{%else%}<option value=6>Rock</option>{%endif%}   
-            {% if attributes.primary_typing == 7 %}<option value=7 selected >Bug</option>{%else%}<option value=7>Bug</option>{%endif%}   
-            {% if attributes.primary_typing == 8 %}<option value=8 selected >Ghost</option>{%else%}<option value=8>Ghost</option>{%endif%}   
-            {% if attributes.primary_typing == 9 %}<option value=9 selected >Steel</option>{%else%}<option value=9>Steel</option>{%endif%}   
-            {% if attributes.primary_typing == 10 %}<option value=10 selected >Fire</option>{%else%}<option value=10>Fire</option>{%endif%}   
-            {% if attributes.primary_typing == 11 %}<option value=11 selected >Water</option>{%else%}<option value=11>Water</option>{%endif%}   
-            {% if attributes.primary_typing == 12 %}<option value=12 selected >Grass</option>{%else%}<option value=12>Grass</option>{%endif%}   
-            {% if attributes.primary_typing == 13 %}<option value=13 selected >Electric</option>{%else%}<option value=13>Electric</option>{%endif%}   
-            {% if attributes.primary_typing == 14 %}<option value=14 selected >Psychic</option>{%else%}<option value=14>Psychic</option>{%endif%}   
-            {% if attributes.primary_typing == 15 %}<option value=15 selected >Ice</option>{%else%}<option value=15>Ice</option>{%endif%}   
-            {% if attributes.primary_typing == 16 %}<option value=16 selected >Dragon</option>{%else%}<option value=16>Dragon</option>{%endif%}   
-            {% if attributes.primary_typing == 17 %}<option value=17 selected >Dark</option>{%else%}<option value=17>Dark</option>{%endif%}   
-            {% if attributes.primary_typing == 18 %}<option value=18 selected >Fairy</option>{%else%}<option value=18>Fairy</option>{%endif%}   
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>Secondary type</label>
-        <select name="secondary">
-            <option value=19>-</option>
-            {% if attributes.secondary_typing == 1 %}<option value=1 selected >Normal</option>{%else%}<option value=1 >Normal</option>{%endif%}          
-            {% if attributes.secondary_typing == 2 %}<option value=2 selected >Fighting</option>{%else%}<option value=2>Fighting</option>{%endif%}   
-            {% if attributes.secondary_typing == 3 %}<option value=3 selected >Flying</option>{%else%}<option value=3>Flying</option>{%endif%}   
-            {% if attributes.secondary_typing == 4 %}<option value=4 selected >Poison</option>{%else%}<option value=4>Poison</option>{%endif%}   
-            {% if attributes.secondary_typing == 5 %}<option value=5 selected >Ground</option>{%else%}<option value=5>Ground</option>{%endif%}   
-            {% if attributes.secondary_typing == 6 %}<option value=6 selected >Rock</option>{%else%}<option value=6>Rock</option>{%endif%}   
-            {% if attributes.secondary_typing == 7 %}<option value=7 selected >Bug</option>{%else%}<option value=7>Bug</option>{%endif%}   
-            {% if attributes.secondary_typing == 8 %}<option value=8 selected >Ghost</option>{%else%}<option value=8>Ghost</option>{%endif%}   
-            {% if attributes.secondary_typing == 9 %}<option value=9 selected >Steel</option>{%else%}<option value=9>Steel</option>{%endif%}   
-            {% if attributes.secondary_typing == 10 %}<option value=10 selected >Fire</option>{%else%}<option value=10>Fire</option>{%endif%}   
-            {% if attributes.secondary_typing == 11 %}<option value=11 selected >Water</option>{%else%}<option value=11>Water</option>{%endif%}   
-            {% if attributes.secondary_typing == 12 %}<option value=12 selected >Grass</option>{%else%}<option value=12>Grass</option>{%endif%}   
-            {% if attributes.secondary_typing == 13 %}<option value=13 selected >Electric</option>{%else%}<option value=13>Electric</option>{%endif%}   
-            {% if attributes.secondary_typing == 14 %}<option value=14 selected >Psychic</option>{%else%}<option value=14>Psychic</option>{%endif%}   
-            {% if attributes.secondary_typing == 15 %}<option value=15 selected >Ice</option>{%else%}<option value=15>Ice</option>{%endif%}   
-            {% if attributes.secondary_typing == 16 %}<option value=16 selected >Dragon</option>{%else%}<option value=16>Dragon</option>{%endif%}   
-            {% if attributes.secondary_typing == 17 %}<option value=17 selected >Dark</option>{%else%}<option value=17>Dark</option>{%endif%}   
-            {% if attributes.secondary_typing == 18 %}<option value=18 selected >Fairy</option>{%else%}<option value=18>Fairy</option>{%endif%} 
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>1st ability</label>
-        <select name="ability1">
-            <option value="1">-</option>
-            {% for ability in abilities %}      
-            {% if attributes.ability1_id == ability.ability_id %}
-            <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
-            {%else%}
-            <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
-            {%endif%}    
-            {% endfor %}
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>2nd ability</label>
-        <select name="ability2">
-            <option value="1">-</option>
-           {% for ability in abilities %}
-            {% if attributes.ability2_id == ability.ability_id %}
-            <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
-            {%else%}
-            <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
-            {%endif%}
-            {% endfor %}
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>3rd ability</label>
-        <select name="ability3">
-            <option value="1">-</option>
-            {% for ability in abilities %}
-            {% if attributes.ability3_id == ability.ability_id %}
-            <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
-            {%else%}
-            <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
-            {%endif%}
-            {% endfor %}
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>Base hp</label>
-        <input name="hp" value = "{{attributes.base_hp}}" class="form-control" type="number" min="1" max="999">
-    </div>
-
-    <div class="form-group">
-        <label>Base attack</label>
-        <input name="attack" value = "{{attributes.base_attack}}"class="form-control" type="number" min="1" max="999">
-    </div>
-
-    <div class="form-group">
-        <label>Base defense</label>
-        <input name="defense" value = "{{attributes.base_defense}}"class="form-control" type="number" min="1" max="999">
-    </div>
-
-    <div class="form-group">
-        <label>Base special attack</label>
-        <input name="spattack" value = "{{attributes.base_special_attack}}"class="form-control" type="number" min="1" max="999">
-    </div>
-
-    <div class="form-group">
-        <label>Base special defense</label>
-        <input name="spdefense" value = "{{attributes.base_special_defense}}"class="form-control" type="number" min="1" max="999">
-    </div>
-
-    <div class="form-group">
-        <label>Base speed</label>
-        <input name="speed" value = "{{attributes.base_speed}}"class="form-control" type="number" min="1" max="999">
-    </div>
-
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Save</button>
     </div>
 </form>
 {% endblock %}

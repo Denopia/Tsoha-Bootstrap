@@ -1,10 +1,46 @@
 #main-container{
-  max-width: 1200px;
-  padding: 10px 25px;
-  margin: 0px auto;
+    max-width: 1400px;
+    padding: 10px 25px;
+    margin: 0px auto;
 }
 
 .navbar .container-fluid{
-  max-width: 1200px;
-  margin: 0px auto;
+    max-width: 1400px;
+    margin: 0px auto;
 }
+
+.form-group{
+    margin: 0px auto;
+    padding-top: 20px
+}
+
+#footer {
+    max-width: 1400px;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    font-size: 70%;
+    border-color: #ddd;
+    height:45px;
+}
+
+html, body {
+    height:100%
+}
+
+#wrapper { min-height: 100%; 
+           height: auto !important; 
+           height: 100%; 
+           margin: 0 auto -50px; 
+}
+#bottom, #push { 
+    height:50px;
+}
+
+

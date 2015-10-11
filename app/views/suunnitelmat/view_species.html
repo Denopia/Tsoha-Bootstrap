@@ -5,42 +5,55 @@
     {{message}}
 </div>
 {% endif %}
-<h1>#{{species.pokedex_number}} {{species.species_name}}
+<h1>
+    #{{species.pokedex_number}} {{species.species_name}}
     {% if user_logged_in %}
     <a href="{{base_path}}/pokemon/new/{{species.pokedex_number}}" class="btn btn-success">Add to your guys!</a>
     {% endif %}
     {% if user_logged_in.admini %}
     <a href="{{base_path}}/species/{{species.pokedex_number}}/edit" class="btn btn-primary">Edit</a>
-    <form method="post" action="{{base_path}}/species/{{species.pokedex_number}}/delete" style="display: inline-block;">
+    <form method="post" action="{{base_path}}/species/{{species.pokedex_number}}/delete" style="display: inline-block;" class="destroy-form" data-confirm="Are you sure you want to delete this species?">
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
     {% endif %}
 </h1>
-<h3>Type: {% for type in species.types %}
-    {{type}} 
-    {% endfor %}
-</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <h3>Type: 
+                {% for type in species.types %}
+                {{type}} 
+                {% endfor %}
+            </h3>
 
+            <h3>Base Stats:</h3>
+            <ul>
+                <li>HP: {{species.base_hp}}</li>
+                <li>Attack: {{species.base_attack}}</li>
+                <li>Defense: {{species.base_defense}}</li>
+                <li>Special Attack: {{species.base_special_attack}}</li>
+                <li>Special Defense: {{species.base_special_defense}}</li>
+                <li>Speed: {{species.base_speed}}</li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            {%if species.pokedex_number < 10%}
+            <img src="http://assets22.pokemon.com/assets/cms2/img/pokedex/full/00{{species.pokedex_number}}.png" alt="picture of species" width="256" height="256">
+            {%elseif species.pokedex_number < 100 %}
+            <img src="http://assets22.pokemon.com/assets/cms2/img/pokedex/full/0{{species.pokedex_number}}.png" alt="picture of species" width="256" height="256">
+            {%else%}
+            <img src="http://assets22.pokemon.com/assets/cms2/img/pokedex/full/{{species.pokedex_number}}.png" alt="picture of species" width="256" height="256">
+            {%endif%}
+        </div>
+    </div>
+</div>
 
-<h3>Base Stats:</h3>
-<ul>
-    <li>HP: {{species.base_hp}}</li>
-    <li>Attack: {{species.base_attack}}</li>
-    <li>Defense: {{species.base_defense}}</li>
-    <li>Special Attack: {{species.base_special_attack}}</li>
-    <li>Special Defense: {{species.base_special_defense}}</li>
-    <li>Speed: {{species.base_speed}}</li>
-</ul>
 <h3>Abilities:</h3>
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
             <th>Name</th>
             <th>Description</th>
-            {% if user_logged_in.admini %}
-            <th>Edit</th>
-            <th>Delete</th>
-            {% endif %}
         </tr>
     </thead>
 
@@ -49,15 +62,11 @@
         <tr>
             <td><a href="{{base_path}}/ability/{{ability.ability_name}}">{{ability.ability_name}}</td>
             <td>{{ability.description}}</td>
-            {% if user_logged_in.admini %}
-            <td><a href="{{base_path}}/ability/{{ability.ability_id}}/edit" class="btn btn-primary">Edit</a></td>
-            <td><a href="{{base_path}}/ability/{{ability.ability_id}}/delete" class="btn btn-danger">Delete</a></td>
-            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
 </table>
-<h3>Pokédex entry: [description]</h3>
+<h3 hidden >Pokédex entry: [description]</h3>
 <p>
 
 </p>

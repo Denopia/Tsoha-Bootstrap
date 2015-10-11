@@ -61,20 +61,17 @@ class PokemonController extends BaseController {
             $abilities[] = $ability;
         }
         $allNatures = Nature::allNatures();
-        $attributes = (array('current_ability' =>  $species->ability1_id, 'species' => $species->species_id));
+        $attributes = (array('current_ability' => $species->ability1_id, 'species' => $species->species_id));
         View::make('suunnitelmat/new_pokemon.html', array('attributes' => $attributes, 'abilities' => $abilities, 'species' => $species, 'natures' => $allNatures));
     }
 
     /**
      * Näyttää tietyn pokemonin muokkaussivun
      * 
-     * !!EI TOIMI VIELÄ!!
-     * 
      * @param type $id pokemonin id
      */
-    public static function edit($id) {
+    public static function editForm($id) {
         $pokemon = Pokemon::findById($id);
-        self::check_user_id($pokemon->trainer);
         $species = $pokemon->speciesmodel;
         $abilities = array();
         if ($species->ability1_id > 1) {
@@ -98,10 +95,8 @@ class PokemonController extends BaseController {
             ));
             $abilities[] = $ability;
         }
-        View::make('suunnitelmat/edit_pokemon.html', array('abilities' => $abilities, 'species' => $species, 'pokemon' => $pokemon));
-
-
-        View::make('suunnitelmat/edit_species.html', array('attributes' => $species, 'abilities' => $abilities));
+        $allNatures = Nature::allNatures();
+        View::make('suunnitelmat/edit_pokemon.html', array('species' => $pokemon->speciesmodel, 'pokemon' => $pokemon, 'abilities' => $abilities, 'natures' => $allNatures));
     }
 
     /**
@@ -150,7 +145,7 @@ class PokemonController extends BaseController {
             'lvl' => $params['lvl'],
             'nature' => $params['nature'],
             'current_ability' => $params['current_ability'],
-            'species' => $params['species'],
+            'species' => $params['species_id'],
             'trainer' => parent::get_user_logged_in()->user_id
         ));
         $pokemon = new Pokemon($attributes);
@@ -159,7 +154,7 @@ class PokemonController extends BaseController {
             $pokemon->save();
             Redirect::to('/pokemon', array('message' => 'New Pokémon added!'));
         } else {
-            $species2 = Species::findById($params['species']);
+            $species2 = Species::findById($params['species_id']);
             $abilities2 = array();
             if ($species2->ability1_id > 1) {
                 $ability2 = new Ability(array(
@@ -191,38 +186,73 @@ class PokemonController extends BaseController {
      * Päivittää pokemonin post-pyynnön parametreilla jos ei
      * löydy virheitä, muuten ohjaa takaisin lomakkeeseen
      * 
-     * EI TOIMI VIELÄ
-     * 
      * @param type $number pokemonin id
      */
-    public static function update($number) {
+    public static function update($id) {
         $params = $_POST;
-        $attributes = array('primary_typing' => $params['primary'],
-            'secondary_typing' => $params['secondary'],
-            'species_name' => $params['name'],
-            'species_original_name' => $params['oname'],
-            'pokedex_number' => $params['number'],
-            'base_hp' => $params['hp'],
-            'base_attack' => $params['attack'],
-            'base_defense' => $params['defense'],
-            'base_special_attack' => $params['spattack'],
-            'base_special_defense' => $params['spdefense'],
-            'base_speed' => $params['speed'],
-            'ability1_id' => $params['ability1'],
-            'ability2_id' => $params['ability2'],
-            'ability3_id' => $params['ability3'],
-            'species_id' => $params['id']
+        $attributes = array(
+            'pokemon_id' => $id,
+            'nickname' => $params['nickname'],
+            'gender' => $params['gender'],
+            'hp' => $params['hp'],
+            'attack' => $params['attack'],
+            'defense' => $params['defense'],
+            'special_attack' => $params['special_attack'],
+            'special_defense' => $params['special_defense'],
+            'speed' => $params['speed'],
+            'happiness' => $params['happiness'],
+            'iv_hp' => $params['iv_hp'],
+            'iv_attack' => $params['iv_attack'],
+            'iv_defense' => $params['iv_defense'],
+            'iv_special_attack' => $params['iv_special_attack'],
+            'iv_special_defense' => $params['iv_special_defense'],
+            'iv_speed' => $params['iv_speed'],
+            'ev_hp' => $params['ev_hp'],
+            'ev_attack' => $params['ev_attack'],
+            'ev_defense' => $params['ev_defense'],
+            'ev_special_attack' => $params['ev_special_attack'],
+            'ev_special_defense' => $params['ev_special_defense'],
+            'ev_speed' => $params['ev_speed'],
+            'shiny' => $params['shiny'],
+            'lvl' => $params['lvl'],
+            'nature' => $params['nature'],
+            'current_ability' => $params['current_ability'],
+            'species' => $params['species_id'],
+            'trainer' => parent::get_user_logged_in()->user_id
         );
 
-        $species = new Species($attributes);
-        $errors = $species->errors();
+        $pokemon = new Pokemon($attributes);
+        $errors = $pokemon->errors();
 
         if (count($errors) == 0) {
-            $species->update();
-            Redirect::to('/species/' . $species->pokedex_number, array('message' => 'Species updated'));
+            $pokemon->update();
+            Redirect::to('/pokemon/' . $pokemon->pokemon_id, array('message' => 'Pokemon updated'));
         } else {
-            $abilities = Ability::allAbilities();
-            View::make('suunnitelmat/edit_species.html', array('abilities' => $abilities, 'errors' => $errors, 'attributes' => $attributes));
+            $species = Species::findById($pokemon->species);
+            $abilities = array();
+            if ($species->ability1_id > 1) {
+                $ability = new Ability(array(
+                    'ability_id' => $species->ability1_id,
+                    'ability_name' => $species->ability1_name
+                ));
+                $abilities[] = $ability;
+            }
+            if ($species->ability2_id > 1) {
+                $ability = new Ability(array(
+                    'ability_id' => $species->ability2_id,
+                    'ability_name' => $species->ability2_name
+                ));
+                $abilities[] = $ability;
+            }
+            if ($species->ability3_id > 1) {
+                $ability = new Ability(array(
+                    'ability_id' => $species->ability3_id,
+                    'ability_name' => $species->ability3_name
+                ));
+                $abilities[] = $ability;
+            }
+            $allNatures = Nature::allNatures();
+            View::make('suunnitelmat/edit_pokemon.html', array('errors' => $errors, 'species' => $pokemon->speciesmodel, 'pokemon' => $pokemon, 'abilities' => $abilities, 'natures' => $allNatures));
         }
     }
 
@@ -240,7 +270,6 @@ class PokemonController extends BaseController {
 
     public static function removeAbilityFromAll($id, $name) {
         self::check_admin();
-//        Redirect::to('/pokemon', array('message' => 'Pokémon removed'));
         Pokemon::removeAbilityFromAll($id, $name);
     }
 

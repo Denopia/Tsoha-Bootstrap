@@ -70,7 +70,7 @@ class Pokemon extends BaseModel {
      * @return type
      */
     public function validate_nickname() {
-        $errors = parent::validate_string_length($this->nickname, '3', '15', 'Nickname');
+        $errors = parent::validate_string_length($this->nickname, '0', '15', 'Nickname');
         return $errors;
     }
 
@@ -80,12 +80,12 @@ class Pokemon extends BaseModel {
      */
     public function validate_stats() {
         $errors = array();
-        $errors = array_merge($errors, parent::validate_integer($this->hp, '1', '999', 'Hp'));
-        $errors = array_merge($errors, parent::validate_integer($this->attack, '1', '999', 'Attack'));
-        $errors = array_merge($errors, parent::validate_integer($this->defense, '1', '999', 'Defense'));
-        $errors = array_merge($errors, parent::validate_integer($this->special_attack, '1', '999', 'Special Attack'));
-        $errors = array_merge($errors, parent::validate_integer($this->special_defense, '1', '999', 'Special Defense'));
-        $errors = array_merge($errors, parent::validate_integer($this->speed, '1', '999', 'Speed'));
+        $errors = array_merge($errors, parent::validate_integer($this->hp, '0', '999', 'Hp'));
+        $errors = array_merge($errors, parent::validate_integer($this->attack, '0', '999', 'Attack'));
+        $errors = array_merge($errors, parent::validate_integer($this->defense, '0', '999', 'Defense'));
+        $errors = array_merge($errors, parent::validate_integer($this->special_attack, '0', '999', 'Special Attack'));
+        $errors = array_merge($errors, parent::validate_integer($this->special_defense, '0', '999', 'Special Defense'));
+        $errors = array_merge($errors, parent::validate_integer($this->speed, '0', '999', 'Speed'));
         $errors = array_merge($errors, parent::validate_integer($this->ev_hp, '0', '255', 'Hp EV'));
         $errors = array_merge($errors, parent::validate_integer($this->ev_attack, '0', '255', 'Attack EV'));
         $errors = array_merge($errors, parent::validate_integer($this->ev_defense, '0', '255', 'Defense EV'));
@@ -134,6 +134,7 @@ class Pokemon extends BaseModel {
                 . 'species = :species '
                 . 'WHERE pokemon_id = :pokemon_id;');
         $query->execute(array(
+            'pokemon_id' => $this->pokemon_id,
             'nickname' => $this->nickname,
             'gender' => $this->gender,
             'hp' => $this->hp,
@@ -161,7 +162,6 @@ class Pokemon extends BaseModel {
             'current_ability' => $this->current_ability,
             'species' => $this->species
         ));
-//        $row = $query->fetch();
     }
 
     /**
@@ -271,7 +271,7 @@ class Pokemon extends BaseModel {
         $query = DB::connection()->prepare('DELETE FROM Pokemon WHERE species = :n');
         $query->execute(array('n' => $species->species_id));
     }
-    
+
     public static function removeAbilityFromAll($id, $name) {
         $rows = self::findAll();
         foreach ($rows as $row) {
@@ -281,7 +281,7 @@ class Pokemon extends BaseModel {
             }
         }
     }
-    
+
     public function findAll() {
         $query = DB::connection()->prepare("SELECT * FROM Pokemon ORDER BY nickname");
         $query->execute();

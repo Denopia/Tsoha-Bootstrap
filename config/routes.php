@@ -109,7 +109,7 @@ $routes->get('/pokemon/new/:number', function($number) {
 });
 
 $routes->get('/pokemon/:id/edit', function($id) {
-    PokemonController::edit($id);
+    PokemonController::editForm($id);
 });
 
 $routes->post('/pokemon/:id/save', function($id) {

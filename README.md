@@ -23,4 +23,7 @@ Tavallinen käyttäjä:
 Sivulla voi myös tehdä uusia tunnuksia joista tulee tavallisia käyttäjiä
 
 
+Viimeisellä viikolla korjaillaan sivun toimintaa ja taitojen ja lajien välinen yhteys tietokannassa, ja muutetaan pokemonien lisäyslomake kevyemmäksi. Projektiin ei siis enää taida tulla muuta uutta sisältöä.
+
+
 

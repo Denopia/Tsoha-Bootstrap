@@ -11,16 +11,30 @@
 </div>
 {% endif %}
 <form method="post" action="{{base_path}}/ability/add">
-    <div class="form-group">
-        <label>Name</label>
-        <input name="name" value = "{{attributes.ability_name}}" class="form-control" type="text">
-    </div>
-    <div class="form-group">
-        <label>Description</label>
-        <input name="description" value = "{{attributes.description}}" class="form-control" type="text">
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Add</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input name="name" value = "{{attributes.ability_name}}" class="form-control" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" class="form-control">{{attributes.description}}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
     </div>
 </form>
 {% endblock %}

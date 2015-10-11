@@ -7,7 +7,7 @@
 
         <title>
             {% block title %}
-            Tietokantasovellus
+            Someone's PC
             {% endblock %}
         </title>
 
@@ -21,52 +21,65 @@
     </head>
 
     <body>
+        <div id="wrapper">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
 
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <!-- Sovelluksen nimi -->
+                        <a class="navbar-brand" href="{{base_path}}">Someone's PC</a>
+                    </div>
 
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <!-- Sovelluksen nimi -->
-                    <a class="navbar-brand" href="{{base_path}}">Someone's PC</a>
+                    <div class="collapse navbar-collapse" id="navigation">
+                        <ul class="nav navbar-nav">
+                            <!-- Navigaation linkit -->
+                            {% if user_logged_in %}
+                            <li><a href="{{base_path}}/pokemon">{{user_logged_in.username}}'s Pokémon</a></li>
+                            {% endif %}
+                            <li><a href="{{base_path}}/species">Species</a></li>
+                            <li><a href="{{base_path}}/ability">Abilities</a></li>
+                            {% if user_logged_in.admini %}
+                            <li><a href="{{base_path}}/species/new">Add new species</a></li>
+                            <li><a href="{{base_path}}/ability/new">Add new ability</a></li>
+                            {% endif %}
+                            {% if user_logged_in is null%}
+                            <li><a href="{{base_path}}/login">Log in</a></li>
+                            {% endif %}
+                            {% if user_logged_in %}
+                            <li><a href="{{base_path}}/logout">Log out</a></li>
+                            {% endif %}
+                            {% if user_logged_in is null%}
+                            <li><a href="{{base_path}}/register">Register</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
+            </nav>
 
-                <div class="collapse navbar-collapse" id="navigation">
-                    <ul class="nav navbar-nav">
-                        <!-- Navigaation linkit -->
-                        {% if user_logged_in %}
-                        <li><a href="{{base_path}}/pokemon">{{user_logged_in.username}}'s Pokémon</a></li>
-                        {% endif %}
-                        <li><a href="{{base_path}}/species">Species</a></li>
-                        <li><a href="{{base_path}}/ability">Abilities</a></li>
-                        {% if user_logged_in.admini %}
-                        <li><a href="{{base_path}}/species/new">Add new species</a></li>
-                        <li><a href="{{base_path}}/ability/new">Add new ability</a></li>
-                        {% endif %}
-                        {% if user_logged_in is null%}
-                        <li><a href="{{base_path}}/login">Log in</a></li>
-                        {% endif %}
-                        {% if user_logged_in %}
-                        <li><a href="{{base_path}}/logout">Log out</a></li>
-                        {% endif %}
-                        {% if user_logged_in is null%}
-                        <li><a href="{{base_path}}/register">Register</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
+            <div id="main-container">
+                <!-- Dynaaminen sisältö tulee tähän -->
+                {% block content %}{% endblock %}
             </div>
-        </nav>
-
-        <div id="main-container">
-            <!-- Dynaaminen sisältö tulee tähän -->
-            {% block content %}{% endblock %}
+            <div id="push"></div>
         </div>
 
+        <div id="bottom">
+            <div id="footer">
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+                    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" />
+                </a>This work is licensed under a 
+                <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
+                    Creative Commons Attribution-NonCommercial 4.0 International License.
+                </a> 
+                Pokémon, Pokémon character names and images are property of Nintendo.
+            </div>
+        </div>
         {% block body %}
         <!-- jQuery -->
         <script src="{{base_path}}/vendor/jquery.min.js"></script>

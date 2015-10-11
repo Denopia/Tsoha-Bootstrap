@@ -441,8 +441,6 @@ ORDER BY number;");
             'ability2_name' => $row['ability2'],
             'ability3_name' => $row['ability3']
             ));
-            unset($abilities);
-            unset($types);
         }
         return $allSpecies[0];
     }
