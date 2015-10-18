@@ -55,10 +55,10 @@ class Ability extends BaseModel {
      * Poistaa taidon tietokannasta
      */
     public function delete() {
-        SpeciesController::removeAbilityFromAll($this->ability_id, $this->ability_name);
-        PokemonController::removeAbilityFromAll($this->ability_id, $this->ability_name);
-        $query = DB::connection()->prepare('DELETE FROM Ability WHERE ability_name = :name');
-        $query->execute(array('name' => $this->ability_name));
+        SpeciesController::removeAbilityFromAll($this->ability_id);
+        PokemonController::removeAbilityFromAll($this->ability_id);
+        $query = DB::connection()->prepare('DELETE FROM Ability WHERE ability_id = :id');
+        $query->execute(array('id' => $this->ability_id));
     }
 
     /**
@@ -67,6 +67,8 @@ class Ability extends BaseModel {
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Ability (ability_name, description) VALUES (:name, :desc) RETURNING ability_id');
         $query->execute(array('name' => $this->ability_name, 'desc' => $this->description));
+        $row = $query->fetch();
+        $this->ability_id = $row['ability_id'];
     }
 
     /**
@@ -75,7 +77,7 @@ class Ability extends BaseModel {
     public function update() {
         $query = DB::connection()->prepare('UPDATE Ability SET ability_name = :name, description = :description WHERE ability_id = :id');
         $query->execute(array('name' => $this->ability_name, 'description' => $this->description, 'id' => $this->ability_id));
-        $row = $query->fetch();
+//        $row = $query->fetch();
     }
 
     /**
@@ -91,7 +93,8 @@ class Ability extends BaseModel {
             $allAbilities[] = new Ability(array(
                 'ability_name' => $row['ability_name'],
                 'ability_id' => $row['ability_id'],
-                'description' => $row['description']
+                'description' => $row['description'],
+                'ability_original_name' => $row['ability_name']
             ));
         }
         return $allAbilities;
@@ -111,10 +114,16 @@ class Ability extends BaseModel {
             $allAbilities[] = new Ability(array(
                 'ability_name' => $row['ability_name'],
                 'ability_id' => $row['ability_id'],
-                'description' => $row['description']
+                'description' => $row['description'],
+                'ability_original_name' => $row['ability_name']
             ));
         }
         return $allAbilities;
+    }
+
+    public static function addAbilityToSpecies($species, $ability) {
+        $query = DB::connection()->prepare("INSERT INTO species_ability (species_id, ability_id) VALUES (:species, :ability)");
+        $query->execute(array('species' => $species, 'ability' => $ability));
     }
 
     /**
@@ -124,15 +133,25 @@ class Ability extends BaseModel {
      * @return \Ability
      */
     public static function search($name, $description) {
-        $query = DB::connection()->prepare("SELECT * FROM Ability WHERE UPPER(ability_name) LIKE UPPER(:n) AND UPPER(description) LIKE UPPER(:d) AND ability_id > 1 ORDER BY ability_name");
-        $query->execute(array('n' => "%$name%", 'd' => "%$description%"));
+        $query = DB::connection()->prepare(
+                "SELECT * "
+                . "FROM Ability "
+                . "WHERE UPPER(ability_name) LIKE UPPER(:n) "
+                . "AND UPPER(description) LIKE UPPER(:d) "
+                . "AND ability_id > 1 "
+                . "ORDER BY ability_name");
+        $query->execute(array(
+            'n' => "%$name%",
+            'd' => "%$description%"
+        ));
         $rows = $query->fetchAll();
         $allAbilities = array();
         foreach ($rows as $row) {
             $allAbilities[] = new Ability(array(
                 'ability_name' => $row['ability_name'],
                 'ability_id' => $row['ability_id'],
-                'description' => $row['description']
+                'description' => $row['description'],
+                'ability_original_name' => $row['ability_name']
             ));
         }
         return $allAbilities;

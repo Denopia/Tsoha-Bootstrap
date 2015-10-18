@@ -7,8 +7,8 @@
 {% endif %}
 <h1>{{ability.ability_name}}
     {% if user_logged_in.admini %}
-    <a href="{{base_path}}/ability/{{ability.ability_name}}/edit" class="btn btn-primary">Edit</a>
-    <form method="post" action="{{base_path}}/ability/{{ability.ability_name}}/delete" style="display: inline-block;" class="destroy-form" data-confirm="Are you sure you want to delete this ability?">
+    <a href="{{base_path}}/ability/{{ability.ability_id}}/edit" class="btn btn-primary">Edit</a>
+    <form method="post" action="{{base_path}}/ability/{{ability.ability_id}}/delete" style="display: inline-block;" class="destroy-form" data-confirm="Are you sure you want to delete this ability?">
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
     {% endif %}
@@ -39,7 +39,7 @@
             <td>#{{species.pokedex_number}}</td>
             <td><a href="{{base_path}}/species/{{species.pokedex_number}}">{{species.species_name}}</td>
             <td>{% for type in species.types %}{{type}}<br>{% endfor %}</td>
-            <td>{% for ability in species.abilities %}<a href="{{base_path}}/ability/{{ability.ability_name}}">{{ability.ability_name}}</a><br> {% endfor %}</td>
+            <td>{% for ability in species.abilities %}<a href="{{base_path}}/ability/{{ability.ability_id}}">{{ability.ability_name}}</a><br> {% endfor %}</td>
             <td>{{species.base_hp}}</td>
             <td>{{species.base_attack}}</td>
             <td>{{species.base_defense}}</td>

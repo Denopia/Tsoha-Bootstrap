@@ -6,7 +6,6 @@ require_once 'app/models/ability.php';
 /**
  * Kontrolloi lajiin liittyviä toimintoja
  */
-
 class SpeciesController extends BaseController {
 
     /**
@@ -42,7 +41,7 @@ class SpeciesController extends BaseController {
     public static function search() {
         $name = $_GET['name'];
         $wanted = array();
-        $allSpecies = Species::findByName($name);
+        $allSpecies = Species::findByNameContaining($name);
         if (isset($_GET['type'])) {
             $typess = $_GET['type'];
             $break = false;
@@ -73,6 +72,19 @@ class SpeciesController extends BaseController {
     public static function create() {
         self::check_admin();
         $params = $_POST;
+        $abilities = array();
+        if ($params['ability1'] > 1) {
+            $abilities[] = Ability::findById($params['ability1']);
+        }
+        if ($params['ability2'] > 1) {
+            $abilities[] = Ability::findById($params['ability2']);
+        }
+        if ($params['ability3'] > 1) {
+            $abilities[] = Ability::findById($params['ability3']);
+        }
+        if ($params['ability4'] > 1) {
+            $abilities[] = Ability::findById($params['ability4']);
+        }
         $attributes = array(
             'primary_typing' => $params['primary'],
             'secondary_typing' => $params['secondary'],
@@ -84,15 +96,20 @@ class SpeciesController extends BaseController {
             'base_special_attack' => $params['spattack'],
             'base_special_defense' => $params['spdefense'],
             'base_speed' => $params['speed'],
+            'abilities' => $abilities,
             'ability1_id' => $params['ability1'],
             'ability2_id' => $params['ability2'],
             'ability3_id' => $params['ability3'],
-            'species_id' => '0'
+            'ability4_id' => $params['ability4']
         );
+
         $species = new Species($attributes);
         $errors = $species->errors();
         if (count($errors) == 0) {
             $species->save();
+            foreach ($abilities as $ability) {
+                Ability::addAbilityToSpecies($species->species_id, $ability->ability_id);
+            }
             Redirect::to('/species/' . $species->pokedex_number, array('message' => 'Species added to database'));
         } else {
             $abilities = Ability::allAbilities();
@@ -121,6 +138,19 @@ class SpeciesController extends BaseController {
     public static function update($number) {
         self::check_admin();
         $params = $_POST;
+        $abilities = array();
+        if ($params['ability1'] > 1) {
+            $abilities[] = Ability::findById($params['ability1']);
+        }
+        if ($params['ability2'] > 1) {
+            $abilities[] = Ability::findById($params['ability2']);
+        }
+        if ($params['ability3'] > 1) {
+            $abilities[] = Ability::findById($params['ability3']);
+        }
+        if ($params['ability4'] > 1) {
+            $abilities[] = Ability::findById($params['ability4']);
+        }
         $attributes = array('primary_typing' => $params['primary'],
             'secondary_typing' => $params['secondary'],
             'species_name' => $params['name'],
@@ -132,10 +162,12 @@ class SpeciesController extends BaseController {
             'base_special_attack' => $params['spattack'],
             'base_special_defense' => $params['spdefense'],
             'base_speed' => $params['speed'],
+            'species_id' => $params['id'],
+            'abilities' => $abilities,
             'ability1_id' => $params['ability1'],
             'ability2_id' => $params['ability2'],
             'ability3_id' => $params['ability3'],
-            'species_id' => $params['id']
+            'ability4_id' => $params['ability4']
         );
 
         $species = new Species($attributes);
@@ -143,6 +175,10 @@ class SpeciesController extends BaseController {
 
         if (count($errors) == 0) {
             $species->update();
+            $species->deleteAllAbilities();
+            foreach ($abilities as $ability) {
+                Ability::addAbilityToSpecies($species->species_id, $ability->ability_id);
+            }
             Redirect::to('/species/' . $species->pokedex_number, array('message' => 'Species updated'));
         } else {
             $abilities = Ability::allAbilities();
@@ -158,11 +194,12 @@ class SpeciesController extends BaseController {
     public static function delete($number) {
         self::check_admin();
         Pokemon::removeAllWithThisSpecies($number);
-        $species = new Species(array('pokedex_number' => $number));
+        $species = Species::findByNumber($number);
+        $species->deleteAllAbilities();
         $species->delete();
         Redirect::to('/species', array('message' => 'Species removed from database'));
     }
-    
+
     /**
      * Poistaa mahdolliset riippuvuudet tietokannan 
      * lajien ja halutun taidon väliltä
@@ -170,9 +207,9 @@ class SpeciesController extends BaseController {
      * @param type $id taidon nimi
      * @param type $name taidon id
      */
-    public static function removeAbilityFromAll($id, $name){
+    public static function removeAbilityFromAll($id) {
         self::check_admin();
-        Species::removeAbilityFromAll($id, $name);
+        Species::removeAbilityFromAll($id);
     }
 
 }

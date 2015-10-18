@@ -37,12 +37,12 @@
     <tbody>
         {% for ability in allAbilities %}
         <tr>
-            <td><a href="{{base_path}}/ability/{{ability.ability_name}}">{{ability.ability_name}}</td>
+            <td><a href="{{base_path}}/ability/{{ability.ability_id}}">{{ability.ability_name}}</td>
             <td>{{ability.description}}</td>
             {% if user_logged_in.admini %}
-            <td><a href="{{base_path}}/ability/{{ability.ability_name}}/edit" class="btn btn-primary">Edit</a></td>
+            <td><a href="{{base_path}}/ability/{{ability.ability_id}}/edit" class="btn btn-primary">Edit</a></td>
             <td>
-                <form method="post" action="{{base_path}}/ability/{{ability.ability_name}}/delete" style="display: inline-block;" class="destroy-form" data-confirm="Are you sure you want to delete this ability?">
+                <form method="post" action="{{base_path}}/ability/{{ability.ability_id}}/delete" style="display: inline-block;" class="destroy-form" data-confirm="Are you sure you want to delete this ability?">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>

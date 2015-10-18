@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Edit {{user_logged_in.username}}'s {{pokemon.nickname}} [{{species.species_name}}]</h1>
+<h1>Edit {{user_logged_in.username}}'s {{pokemon.nickname}}</h1>
 
 {% if errors %}
 <div class="alert alert-danger">
@@ -13,20 +13,35 @@
 </div>
 {% endif %}
 
-<h3>Type: {% for type in species.types %}
-    {{type}} 
-    {% endfor %}
-</h3>
-
-<h3>Base Stats:</h3>
-<ul>
-    <li>HP: {{species.base_hp}}</li>
-    <li>Attack: {{species.base_attack}}</li>
-    <li>Defense: {{species.base_defense}}</li>
-    <li>Special Attack: {{species.base_special_attack}}</li>
-    <li>Special Defense: {{species.base_special_defense}}</li>
-    <li>Speed: {{species.base_speed}}</li>
-</ul>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <h3>Species: {{species.species_name}}</h3>
+            <h3>Type: {% for type in species.types %}
+                {{type}} 
+                {% endfor %}
+            </h3>
+            <h3>Base Stats:</h3>
+            <ul>
+                <li>HP: {{species.base_hp}}</li>
+                <li>Attack: {{species.base_attack}}</li>
+                <li>Defense: {{species.base_defense}}</li>
+                <li>Special Attack: {{species.base_special_attack}}</li>
+                <li>Special Defense: {{species.base_special_defense}}</li>
+                <li>Speed: {{species.base_speed}}</li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            {%if pokemon.speciesmodel.pokedex_number < 10%}
+            <img src="http://assets22.pokemon.com/assets/cms2/img/pokedex/full/00{{species.pokedex_number}}.png" alt="picture of species" width="256" height="256">
+            {%elseif pokemon.speciesmodel.pokedex_number < 100 %}
+            <img src="http://assets22.pokemon.com/assets/cms2/img/pokedex/full/0{{species.pokedex_number}}.png" alt="picture of species" width="256" height="256">
+            {%else%}
+            <img src="http://assets22.pokemon.com/assets/cms2/img/pokedex/full/{{species.pokedex_number}}.png" alt="picture of species" width="256" height="256">
+            {%endif%}
+        </div>
+    </div>
+</div>
 
 <form method="post" action="{{base_path}}/pokemon/{{pokemon.pokemon_id}}/save">
     <div hidden class="form-group">
@@ -35,165 +50,182 @@
     </div>
     <div hidden class="form-group">
         <label>Species Id</label>
-        <input name="species_id" value = "{{species.species_id}}" class="form-control" type="text">
-    </div>
-    <div class="form-group">
-        <label>Nickame</label>
-        <input name="nickname" value = "{{pokemon.nickname}}" class="form-control" type="text">
+        <input name="species" value = "{{species.species_id}}" class="form-control" type="text">
     </div>
 
-    <div class="form-group">
-        <label>Gender</label>      
-        <input type="radio" name="gender" value="Genderless" checked="checked" >Genderless
-        {%if pokemon.gender == "Female"%}
-        <input type="radio" name="gender"  checked="checked" value="Female">Female
-        {%else%}
-        <input type="radio" name="gender" value="Female">Female
-        {%endif%}
-        {%if pokemon.gender == "Male"%}
-        <input type="radio" name="gender" checked="checked" value="Male">Male
-        {%else%}
-        <input type="radio" name="gender" value="Male">Male
-        {%endif%}    
-    </div>
+    <div class="container-fluid">
+        <h3>General Info</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Nickame</label>
+                    <input name="nickname" value = "{{pokemon.nickname}}" class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label>Level</label>
+                    <input name="lvl" value="{{pokemon.lvl}}" class="form-control" type="number" min="1" max="100">
+                </div>
 
-    <div class="form-group">
-        <label>Shiny</label>
-        <input type="radio" name="shiny" checked="checked" value=0>No
-        {%if pokemon.shiny == 1%}
-        <input type="radio" name="shiny" checked="checked" value=1>Yes :]
-        {%else%}
-        <input type="radio" name="shiny" value=1>Yes :]
-        {%endif%}    
+                <div class="form-group">
+                    <label>Happiness</label>
+                    <input name="happiness" value = "{{pokemon.happiness}}" class="form-control" type="number" min="0" max="255">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Gender</label>     <br>  
+                    <input type="radio" name="gender" value="Genderless" checked="checked" >Genderless
+                    {%if pokemon.gender == "Female"%}
+                    <input type="radio" name="gender"  checked="checked" value="Female">Female
+                    {%else%}
+                    <input type="radio" name="gender" value="Female">Female
+                    {%endif%}
+                    {%if pokemon.gender == "Male"%}
+                    <input type="radio" name="gender" checked="checked" value="Male">Male
+                    {%else%}
+                    <input type="radio" name="gender" value="Male">Male
+                    {%endif%}    
+                </div>
 
-    </div>
+                <div class="form-group">
+                    <label>Shiny</label><br> 
+                    <input type="radio" name="shiny" checked="checked" value=0>No
+                    {%if pokemon.shiny == 1%}
+                    <input type="radio" name="shiny" checked="checked" value=1>Yes :]
+                    {%else%}
+                    <input type="radio" name="shiny" value=1>Yes :]
+                    {%endif%}    
 
-    <div class="form-group">
-        <label>Ability</label>
-        {% for ability in abilities %}
-        {% if pokemon.current_ability == ability.ability_id %}
-        <input type="radio" name="current_ability" checked="checked" value="{{ability.ability_id}}">{{ability.ability_name}}
-        {%else%}
-        <input type="radio" name="current_ability" value="{{ability.ability_id}}">{{ability.ability_name}}
-        {%endif%} 
-        {% endfor %}
-    </div>
+                </div>
 
-    <div class="form-group">
-        <label>Nature</label>
-        <select name="nature">
-            {% for nature in natures %}
-            {% if pokemon.nature == nature.nature_id %}
-            <option selected value="{{nature.nature_id}}">{{nature.nature_name}}</option>
-            {%else%}
-            <option value="{{nature.nature_id}}">{{nature.nature_name}}</option>
-            {%endif%}  
-            {% endfor %}
-        </select>
-    </div>
+                <div class="form-group">
+                    <label>Ability</label><br> 
+                    {% for ability in abilities %}
+                    {% if pokemon.current_ability == ability.ability_id %}
+                    <input type="radio" name="current_ability" checked="checked" value="{{ability.ability_id}}">{{ability.ability_name}}
+                    {%else%}
+                    <input type="radio" name="current_ability" value="{{ability.ability_id}}">{{ability.ability_name}}
+                    {%endif%} 
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Nature</label>
+                    <select name="nature">
+                        {% for nature in natures %}
+                        {% if pokemon.nature == nature.nature_id %}
+                        <option selected value="{{nature.nature_id}}">{{nature.nature_name}}</option>
+                        {%else%}
+                        <option value="{{nature.nature_id}}">{{nature.nature_name}}</option>
+                        {%endif%}  
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <h3>Stats</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Hp</label>
+                    <input name="hp" value = "{{pokemon.hp}}" class="form-control" type="number" min="1" max="999">
+                </div>
 
-    <div class="form-group">
-        <label>Level</label>
-        <input name="lvl" value="{{pokemon.lvl}}" class="form-control" type="number" min="1" max="100">
-    </div>
+                <div class="form-group">
+                    <label>Attack</label>
+                    <input name="attack" value = "{{pokemon.attack}}" class="form-control" type="number" min="1" max="999">
+                </div>
 
-    <div class="form-group">
-        <label>Happiness</label>
-        <input name="happiness" value = "{{pokemon.happiness}}" class="form-control" type="number" min="0" max="255">
-    </div>
+                <div class="form-group">
+                    <label>Defense</label>
+                    <input name="defense" value = "{{pokemon.defense}}" class="form-control" type="number" min="1" max="999">
+                </div>
 
-    <div class="form-group">
-        <label>Hp</label>
-        <input name="hp" value = "{{pokemon.hp}}" class="form-control" type="number" min="1" max="999">
-    </div>
+                <div class="form-group">
+                    <label>Special attack</label>
+                    <input name="special_attack" value = "{{pokemon.special_attack}}" class="form-control" type="number" min="1" max="999">
+                </div>
 
-    <div class="form-group">
-        <label>Attack</label>
-        <input name="attack" value = "{{pokemon.attack}}" class="form-control" type="number" min="1" max="999">
-    </div>
+                <div class="form-group">
+                    <label>Special defense</label>
+                    <input name="special_defense" value = "{{pokemon.special_defense}}" class="form-control" type="number" min="1" max="999">
+                </div>
 
-    <div class="form-group">
-        <label>Defense</label>
-        <input name="defense" value = "{{pokemon.defense}}" class="form-control" type="number" min="1" max="999">
-    </div>
+                <div class="form-group">
+                    <label>Speed</label>
+                    <input name="speed" value = "{{pokemon.speed}}" class="form-control" type="number" min="1" max="999">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Hp EVs</label>
+                    <input name="ev_hp" value = "{{pokemon.ev_hp}}" class="form-control" type="number" min="0" max="255">
+                </div>
 
-    <div class="form-group">
-        <label>Special attack</label>
-        <input name="special_attack" value = "{{pokemon.special_attack}}" class="form-control" type="number" min="1" max="999">
-    </div>
+                <div class="form-group">
+                    <label>Attack EVs </label>
+                    <input name="ev_attack" value = "{{pokemon.ev_attack}}" class="form-control" type="number" min="0" max="255">
+                </div>
 
-    <div class="form-group">
-        <label>Special defense</label>
-        <input name="special_defense" value = "{{pokemon.special_defense}}" class="form-control" type="number" min="1" max="999">
-    </div>
+                <div class="form-group">
+                    <label>Defense EVs</label>
+                    <input name="ev_defense" value = "{{pokemon.ev_defense}}" class="form-control" type="number" min="0" max="255">
+                </div>
 
-    <div class="form-group">
-        <label>Speed</label>
-        <input name="speed" value = "{{pokemon.speed}}" class="form-control" type="number" min="1" max="999">
-    </div>
+                <div class="form-group">
+                    <label>Special attack EVs</label>
+                    <input name="ev_special_attack" value = "{{pokemon.ev_special_attack}}" class="form-control" type="number" min="0" max="255">
+                </div>
 
-    <div class="form-group">
-        <label>Hp EVs</label>
-        <input name="ev_hp" value = "{{pokemon.ev_hp}}" class="form-control" type="number" min="0" max="255">
-    </div>
+                <div class="form-group">
+                    <label>Special defense EVs</label>
+                    <input name="ev_special_defense" value = "{{pokemon.ev_special_defense}}" class="form-control" type="number" min="0" max="255">
+                </div>
 
-    <div class="form-group">
-        <label>Attack EVs </label>
-        <input name="ev_attack" value = "{{pokemon.ev_attack}}" class="form-control" type="number" min="0" max="255">
-    </div>
+                <div class="form-group">
+                    <label>Speed EVs</label>
+                    <input name="ev_speed" value = "{{pokemon.ev_speed}}" class="form-control" type="number" min="0" max="255">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Hp IVs</label>
+                    <input name="iv_hp" value = "{{pokemon.iv_hp}}" class="form-control" type="number" min="0" max="31">
+                </div>
 
-    <div class="form-group">
-        <label>Defense EVs</label>
-        <input name="ev_defense" value = "{{pokemon.ev_defense}}" class="form-control" type="number" min="0" max="255">
-    </div>
+                <div class="form-group">
+                    <label>Attack IVs </label>
+                    <input name="iv_attack" value = "{{pokemon.iv_attack}}" class="form-control" type="number" min="0" max="31">
+                </div>
 
-    <div class="form-group">
-        <label>Special attack EVs</label>
-        <input name="ev_special_attack" value = "{{pokemon.ev_special_attack}}" class="form-control" type="number" min="0" max="255">
-    </div>
+                <div class="form-group">
+                    <label>Defense IVs</label>
+                    <input name="iv_defense" value = "{{pokemon.iv_defense}}" class="form-control" type="number" min="0" max="31">
+                </div>
 
-    <div class="form-group">
-        <label>Special defense EVs</label>
-        <input name="ev_special_defense" value = "{{pokemon.ev_special_defense}}" class="form-control" type="number" min="0" max="255">
-    </div>
+                <div class="form-group">
+                    <label>Special attack IVs</label>
+                    <input name="iv_special_attack" value = "{{pokemon.iv_special_attack}}" class="form-control" type="number" min="0" max="31">
+                </div>
 
-    <div class="form-group">
-        <label>Speed EVs</label>
-        <input name="ev_speed" value = "{{pokemon.ev_speed}}" class="form-control" type="number" min="0" max="255">
-    </div>
+                <div class="form-group">
+                    <label>Special defense IVs</label>
+                    <input name="iv_special_defense" value = "{{pokemon.iv_special_defense}}" class="form-control" type="number" min="0" max="31">
+                </div>
 
-    <div class="form-group">
-        <label>Hp IVs</label>
-        <input name="iv_hp" value = "{{pokemon.iv_hp}}" class="form-control" type="number" min="0" max="31">
-    </div>
-
-    <div class="form-group">
-        <label>Attack IVs </label>
-        <input name="iv_attack" value = "{{pokemon.iv_attack}}" class="form-control" type="number" min="0" max="31">
-    </div>
-
-    <div class="form-group">
-        <label>Defense IVs</label>
-        <input name="iv_defense" value = "{{pokemon.iv_defense}}" class="form-control" type="number" min="0" max="31">
-    </div>
-
-    <div class="form-group">
-        <label>Special attack IVs</label>
-        <input name="iv_special_attack" value = "{{pokemon.iv_special_attack}}" class="form-control" type="number" min="0" max="31">
-    </div>
-
-    <div class="form-group">
-        <label>Special defense IVs</label>
-        <input name="iv_special_defense" value = "{{pokemon.iv_special_defense}}" class="form-control" type="number" min="0" max="31">
-    </div>
-
-    <div class="form-group">
-        <label>Speed IVs</label>
-        <input name="iv_speed" value = "{{pokemon.iv_speed}}" class="form-control" type="number" min="0" max="31">
-    </div>
-
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Save</button>
-    </div>
+                <div class="form-group">
+                    <label>Speed IVs</label>
+                    <input name="iv_speed" value = "{{pokemon.iv_speed}}" class="form-control" type="number" min="0" max="31">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
 </form>
 {% endblock %}

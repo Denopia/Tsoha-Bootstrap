@@ -37,6 +37,16 @@ INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Hasty','Speed'
 INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Serious','-','-');
 INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Jolly', 'Speed', 'Special Attack');
 INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Naive', 'Speed', 'Special Defense');
+INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Modest','Special Attack','Attack');
+INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Mild','Special Attack','Defense');
+INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Quiet','Special Attack','Speed');
+INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Bashful','-','-');
+INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Rash','Special Attack','Special Defense');
+INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Calm','Special Defense','Attack');
+INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Gentle','Special Defense','Defense');
+INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Sassy','Special Defense','Speed');
+INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Careful','Special Defense','Special Attack');
+INSERT INTO Nature (nature_name, strong_stat, weak_stat) VALUES ('Quirky','-','-');
 
 INSERT INTO Ability (ability_name, description) VALUES ('No Ability', 'Doesn''t have special ability.');
 INSERT INTO Ability (ability_name, description) VALUES ('Overgrow', 'Powers up Grass-type moves when the Pokémon is in trouble.');
@@ -48,13 +58,19 @@ INSERT INTO Ability (ability_name, description) VALUES ('Rain Dish', 'The Pokém
 INSERT INTO Ability (ability_name, description) VALUES ('Snow Cloak', 'Boosts evasion in a hailstorm.');
 INSERT INTO Ability (ability_name, description) VALUES ('Ice Body', 'The Pokémon gradually regains HP in a hailstorm.');
 
-INSERT INTO Move (move_name, description, power, accuracy, pp, category, typing) VALUES ('Giga Drain', 'A nutrient-draining attack. The user''s HP is restored by half the damage taken by the target.', 75, 100, 10, 'Special', 12);
-INSERT INTO Move (move_name, description, power, accuracy, pp, category, typing) VALUES ('Flare Blitz', 'The user cloaks itself in fire and charges the target. This also damages the user quite a lot. This may leave the target with a burn.', 120, 100, 15, 'Physical', 10);
+INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing) VALUES ('Bulbasaur', 1, 45, 49, 49, 65, 65, 45, 12, 4);
+INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing) VALUES ('Charmander', 4, 39, 52, 43, 60, 50, 65, 10, 19);
+INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing) VALUES ('Squirtle', 7, 44, 48, 65, 50, 64, 43, 11, 19);
+INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing) VALUES ('Glaceon', 471, 65, 60, 110, 130, 95, 65, 15, 19);
 
-INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing, ability1, ability2, ability3) VALUES ('Bulbasaur', 1, 45, 49, 49, 65, 65, 45, 12, 4, 2, 3, 1);
-INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing, ability1, ability2, ability3) VALUES ('Charmander', 4, 39, 52, 43, 60, 50, 65, 10, 19, 4, 5, 1);
-INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing, ability1, ability2, ability3) VALUES ('Squirtle', 7, 44, 48, 65, 50, 64, 43, 11, 19, 6, 7, 1);
-INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing, ability1, ability2, ability3) VALUES ('Glaceon', 471, 65, 60, 110, 130, 95, 65, 15, 19, 8, 9, 1);
+INSERT INTO species_ability (species_id, ability_id) VALUES (1,2);
+INSERT INTO species_ability (species_id, ability_id) VALUES (1,3);
 
-INSERT INTO Pokemon (nickname, gender, hp, attack ,defense, special_attack, special_defense, speed, happiness, iv_hp, iv_attack, iv_defense, iv_special_attack, iv_special_defense, iv_speed, ev_hp, ev_attack, ev_defense, ev_special_attack, ev_special_defense, ev_speed, shiny, lvl, nature, current_ability, species, trainer)
-VALUES('Rika', 'Female', '1', '2', '3', '4', '5', '6', '255', '1', '2', '3', '4', '5', '6', '1', '2', '3', '4', '5', '6', true, '100', '2', '8', '4', '1');
+INSERT INTO species_ability (species_id, ability_id) VALUES (2,4);
+INSERT INTO species_ability (species_id, ability_id) VALUES (2,5);
+
+INSERT INTO species_ability (species_id, ability_id) VALUES (3,6);
+INSERT INTO species_ability (species_id, ability_id) VALUES (3,7);
+
+INSERT INTO species_ability (species_id, ability_id) VALUES (4,8);
+INSERT INTO species_ability (species_id, ability_id) VALUES (4,9);

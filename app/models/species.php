@@ -22,17 +22,15 @@ class Species extends BaseModel {
             $types,
             $primary_typing,
             $secondary_typing,
-            $abilities,
             $ability1_id,
             $ability2_id,
             $ability3_id,
-            $ability1_name,
-            $ability2_name,
-            $ability3_name;
+            $ability4_id,
+            $abilities;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array('validate_name', 'validate_types', 'validate_abilities', 'validate_base_stats');
+        $this->validators = array('validate_name', 'validate_types', 'validate_base_stats', 'validate_abilities');
     }
 
     /**
@@ -101,7 +99,7 @@ class Species extends BaseModel {
      */
     public function validate_abilities() {
         $errors = array();
-        if ($this->ability1_id == '1' && $this->ability2_id == '1' && $this->ability3_id == '1') {
+        if ($this->ability1_id == '1' && $this->ability2_id == '1' && $this->ability3_id == '1' && $this->ability4_id == '1') {
             $errors[] = 'Species must have at least one ability';
             return $errors;
         }
@@ -109,11 +107,23 @@ class Species extends BaseModel {
             $errors[] = 'Species can not have duplicate abilities';
             return $errors;
         }
+        if ($this->ability1_id == $this->ability3_id && $this->ability1_id != '1') {
+            $errors[] = 'Species can not have duplicate abilities';
+            return $errors;
+        }
+        if ($this->ability1_id == $this->ability4_id && $this->ability1_id != '1') {
+            $errors[] = 'Species can not have duplicate abilities';
+            return $errors;
+        }
         if ($this->ability2_id == $this->ability3_id && $this->ability2_id != '1') {
             $errors[] = 'Species can not have duplicate abilities';
             return $errors;
         }
-        if ($this->ability3_id == $this->ability1_id && $this->ability3_id != '1') {
+        if ($this->ability2_id == $this->ability4_id && $this->ability2_id != '1') {
+            $errors[] = 'Species can not have duplicate abilities';
+            return $errors;
+        }
+        if ($this->ability3_id == $this->ability4_id && $this->ability3_id != '1') {
             $errors[] = 'Species can not have duplicate abilities';
             return $errors;
         }
@@ -139,9 +149,36 @@ class Species extends BaseModel {
      * Päivittää lajin tietokantaan
      */
     public function update() {
-        $query = DB::connection()->prepare('UPDATE Species SET species_name = :name, pokedex_number = :number, base_hp = :hp, base_attack = :attack, base_defense = :defense, base_special_attack = :spattack, base_special_defense = :spdefense, base_speed = :speed, primary_typing = :primary, secondary_typing = :secondary, ability1 = :a1, ability2 = :a2, ability3 = :a3 WHERE species_id = :id;');
-        $query->execute(array('name' => $this->species_name, 'number' => $this->pokedex_number, 'hp' => $this->base_hp, 'attack' => $this->base_attack, 'defense' => $this->base_defense, 'spattack' => $this->base_special_attack, 'spdefense' => $this->base_special_defense, 'speed' => $this->base_speed, 'primary' => $this->primary_typing, 'secondary' => $this->secondary_typing, 'a1' => $this->ability1_id, 'a2' => $this->ability2_id, 'a3' => $this->ability3_id, 'id' => $this->species_id));
-        $row = $query->fetch();
+        $query = DB::connection()->prepare(
+                'UPDATE Species '
+                . 'SET species_name = :name, '
+                . 'pokedex_number = :number, '
+                . 'base_hp = :hp, '
+                . 'base_attack = :attack, '
+                . 'base_defense = :defense, '
+                . 'base_special_attack = :spattack, '
+                . 'base_special_defense = :spdefense, '
+                . 'base_speed = :speed, '
+                . 'primary_typing = :primary, '
+                . 'secondary_typing = :secondary '
+                . 'WHERE species_id = :id');
+        $query->execute(array(
+            'name' => $this->species_name,
+            'number' => $this->pokedex_number,
+            'hp' => $this->base_hp,
+            'attack' => $this->base_attack,
+            'defense' => $this->base_defense,
+            'spattack' => $this->base_special_attack,
+            'spdefense' => $this->base_special_defense,
+            'speed' => $this->base_speed,
+            'primary' => $this->primary_typing,
+            'secondary' => $this->secondary_typing,
+            'id' => $this->species_id));
+    }
+
+    public function deleteAllAbilities() {
+        $query = DB::connection()->prepare("DELETE FROM species_ability WHERE species_id = :id");
+        $query->execute(array('id' => $this->species_id));
     }
 
     /**
@@ -150,30 +187,52 @@ class Species extends BaseModel {
      * @param type $id taidon id
      * @param type $name taidon nimi
      */
-    public static function removeAbilityFromAll($id, $name) {
-        $rows = self::findByAbility($name);
-        foreach ($rows as $row) {
-            if ($row->ability1_name == $name) {
-                $query = DB::connection()->prepare('UPDATE Species SET ability1 = :a WHERE species_id = :id');
-                $query->execute(array('a' => '1', 'id' => $row->species_id));
-            } else if ($row->ability2_name == $name) {
-                $query = DB::connection()->prepare('UPDATE Species SET ability2 = :a WHERE species_id = :id');
-                $query->execute(array('a' => '1', 'id' => $row->species_id));
-            } else if ($row->ability3_name == $name) {
-                $query = DB::connection()->prepare('UPDATE Species SET ability3 = :a WHERE species_id = :id');
-                $query->execute(array('a' => '1', 'id' => $row->species_id));
-            }
-        }
+    public static function removeAbilityFromAll($id) {
+        $query = DB::connection()->prepare('DELETE FROM species_ability WHERE ability_id = :id');
+        $query->execute(array('id' => $id));
     }
 
     /**
      * Lisää uuden lajin tietokantaan
      */
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Species (species_name, pokedex_number, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed, primary_typing, secondary_typing, ability1, ability2, ability3) VALUES (:name, :number, :hp, :attack, :defense, :spattack, :spdefense, :speed, :primary, :secondary, :a1, :a2, :a3) RETURNING species_id');
-        $query->execute(array('name' => $this->species_name, 'number' => $this->pokedex_number, 'hp' => $this->base_hp, 'attack' => $this->base_attack, 'defense' => $this->base_defense, 'spattack' => $this->base_special_attack, 'spdefense' => $this->base_special_defense, 'speed' => $this->base_speed, 'primary' => $this->primary_typing, 'secondary' => $this->secondary_typing, 'a1' => $this->ability1_id, 'a2' => $this->ability2_id, 'a3' => $this->ability3_id));
+        $query = DB::connection()->prepare(
+                'INSERT INTO Species ('
+                . 'species_name, '
+                . 'pokedex_number, '
+                . 'base_hp, '
+                . 'base_attack, '
+                . 'base_defense, '
+                . 'base_special_attack, '
+                . 'base_special_defense, '
+                . 'base_speed, '
+                . 'primary_typing, '
+                . 'secondary_typing) '
+                . 'VALUES ('
+                . ':name, '
+                . ':number, '
+                . ':hp, '
+                . ':attack, '
+                . ':defense, '
+                . ':spattack, '
+                . ':spdefense, '
+                . ':speed, '
+                . ':primary, '
+                . ':secondary) '
+                . 'RETURNING species_id');
+        $query->execute(array(
+            'name' => $this->species_name,
+            'number' => $this->pokedex_number,
+            'hp' => $this->base_hp,
+            'attack' => $this->base_attack,
+            'defense' => $this->base_defense,
+            'spattack' => $this->base_special_attack,
+            'spdefense' => $this->base_special_defense,
+            'speed' => $this->base_speed,
+            'primary' => $this->primary_typing,
+            'secondary' => $this->secondary_typing));
         $row = $query->fetch();
-        $pokemonid = $row['species_id'];
+        $this->species_id = $row['species_id'];
     }
 
     /**
@@ -190,81 +249,50 @@ class Species extends BaseModel {
      * @return \Species
      */
     public static function allSpecies() {
-        $query = DB::connection()->prepare(
-                "SELECT * FROM 
-                    (
-                    SELECT ROW_NUMBER() OVER(PARTITION BY species.pokedex_number ORDER BY species.pokedex_number) as rownum, 
-                    species.species_id as id, 
-                    species.pokedex_number as number, 
-                    species.species_name as name,
-                    a.typing_name as primary, 
-                    b.typing_name as secondary, 
-                    c.ability_name as ability1,  
-                    d.ability_name as ability2, 
-                    e.ability_name as ability3, 
-                    c.ability_id as ability1_id,  
-                    d.ability_id as ability2_id, 
-                    e.ability_id as ability3_id, 
-                    species.base_hp as hp, 
-                    species.base_attack as attack, 
-                    species.base_defense as defense, 
-                    species.base_special_attack as special_attack, 
-                    species.base_special_defense as special_defense, 
-                    species.base_speed as speed
-                    FROM species, 
-                    typing a, 
-                    typing b, 
-                    ability c,
-                    ability d, 
-                    ability e
-                    WHERE species.primary_typing = a.typing_id
-                    and species.secondary_typing = b.typing_id
-                    and c.ability_id = species.ability1
-                    and d.ability_id = species.ability2
-                    and e.ability_id = species.ability3
-                    )a
-                    WHERE a.rownum = 1
-                    ORDER BY number;");
+        $query = DB::connection()->prepare("SELECT * FROM Species ORDER BY pokedex_number");
         $query->execute();
         $rows = $query->fetchAll();
         $allSpecies = array();
         foreach ($rows as $row) {
-            $abilities = array();
-            if ($row['ability1'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability1']);
-            }
-            if ($row['ability2'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability2']);
-            }
-            if ($row['ability3'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability3']);
-            }
             $types = array();
-            $types[] = $row['primary'];
-            if ($row['secondary'] != 'N/A') {
-                $types[] = $row['secondary'];
+            if ($row['primary_typing'] != 19) {
+                $query2 = DB::connection()->prepare("SELECT * FROM Typing WHERE typing_id = :id LIMIT 1");
+                $query2->execute(array('id' => $row['primary_typing']));
+                $type1 = $query2->fetch();
+                $types[] = $type1['typing_name'];
             }
+            if ($row['secondary_typing'] != 19) {
+                $query3 = DB::connection()->prepare("SELECT * FROM Typing WHERE typing_id = :id LIMIT 1");
+                $query3->execute(array('id' => $row['secondary_typing']));
+                $type2 = $query3->fetch();
+                $types[] = $type2['typing_name'];
+            }
+
+            $abilities = array();
+            $query4 = DB::connection()->prepare("SELECT * FROM species_ability WHERE species_id = :id");
+            $query4->execute(array('id' => $row['species_id']));
+            $abilitytable = $query4->fetchAll();
+            foreach ($abilitytable as $ab) {
+                $abilities[] = Ability::findById($ab['ability_id']);
+            }
+
             $allSpecies[] = new Species(array(
-                'species_id' => $row['id'],
-                'species_name' => $row['name'],
-                'pokedex_number' => $row['number'],
-                'base_hp' => $row['hp'],
-                'base_attack' => $row['attack'],
-                'base_defense' => $row['defense'],
-                'base_special_attack' => $row['special_attack'],
-                'base_special_defense' => $row['special_defense'],
-                'base_speed' => $row['speed'],
+                'species_id' => $row['species_id'],
+                'species_name' => $row['species_name'],
+                'pokedex_number' => $row['pokedex_number'],
+                'base_hp' => $row['base_hp'],
+                'base_attack' => $row['base_attack'],
+                'base_defense' => $row['base_defense'],
+                'base_special_attack' => $row['base_special_attack'],
+                'base_special_defense' => $row['base_special_defense'],
+                'base_speed' => $row['base_speed'],
                 'types' => $types,
                 'abilities' => $abilities,
-                'ability1_id' => $row['ability1_id'],
-                'ability2_id' => $row['ability2_id'],
-                'ability3_id' => $row['ability3_id'],
-                'ability1_name' => $row['ability1'],
-                'ability2_name' => $row['ability2'],
-                'ability3_name' => $row['ability3']
+                'primary_typing' => $row['primary_typing'],
+                'secondary_typing' => $row['secondary_typing']
             ));
-            unset($abilities);
             unset($types);
+            unset($abilities);
         }
         return $allSpecies;
     }
@@ -275,86 +303,48 @@ class Species extends BaseModel {
      * @return \Species
      */
     public static function findById($id) {
-        $query = DB::connection()->prepare(
-                "SELECT * 
-                    FROM 
-                    (
-                    SELECT ROW_NUMBER() OVER(PARTITION BY species.pokedex_number ORDER BY species.pokedex_number) as rownum, 
-                    species.species_id as id, 
-                    species.pokedex_number as number, 
-                    species.species_name as name,
-                    a.typing_name as primary, 
-                    b.typing_name as secondary, 
-                    c.ability_name as ability1,  
-                    d.ability_name as ability2, 
-                    e.ability_name as ability3,
-                    c.ability_id as ability1_id,  
-                    d.ability_id as ability2_id, 
-                    e.ability_id as ability3_id, 
-                    species.base_hp as hp, 
-                    species.base_attack as attack, 
-                    species.base_defense as defense, 
-                    species.base_special_attack as special_attack, 
-                    species.base_special_defense as special_defense, 
-                    species.base_speed as speed
-                    FROM species, 
-                    typing a, 
-                    typing b, 
-                    ability c,
-                    ability d, 
-                    ability e
-                    WHERE species.primary_typing = a.typing_id
-                    and species.secondary_typing = b.typing_id
-                    and c.ability_id = species.ability1
-                    and d.ability_id = species.ability2
-                    and e.ability_id = species.ability3
-                    )a
-                    WHERE a.rownum = 1
-                    AND id = :id
-                    ORDER BY id;");
+        $query = DB::connection()->prepare("SELECT * FROM Species WHERE species_id = :id LIMIT 1");
         $query->execute(array('id' => $id));
-        $rows = $query->fetchAll();
-        $allSpecies = array();
-        foreach ($rows as $row) {
-            $abilities = array();
-            if ($row['ability1'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability1']);
-            }
-            if ($row['ability2'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability2']);
-            }
-            if ($row['ability3'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability3']);
-            }
-            $types = array();
-            $types[] = $row['primary'];
-            if ($row['secondary'] != 'N/A') {
-                $types[] = $row['secondary'];
-            }
-            $allSpecies[] = new Species(array(
-                'species_id' => $row['id'],
-                'species_name' => $row['name'],
-                'species_original_name' => $row['name'],
-                'pokedex_number' => $row['number'],
-                'base_hp' => $row['hp'],
-                'base_attack' => $row['attack'],
-                'base_defense' => $row['defense'],
-                'base_special_attack' => $row['special_attack'],
-                'base_special_defense' => $row['special_defense'],
-                'base_speed' => $row['speed'],
-                'types' => $types,
-                'abilities' => $abilities,
-                'ability1_id' => $row['ability1_id'],
-                'ability2_id' => $row['ability2_id'],
-                'ability3_id' => $row['ability3_id'],
-                'ability1_name' => $row['ability1'],
-                'ability2_name' => $row['ability2'],
-                'ability3_name' => $row['ability3']
-            ));
-            unset($abilities);
-            unset($types);
+        $row = $query->fetch();
+        $types = array();
+        if ($row['primary_typing'] != 19) {
+            $query2 = DB::connection()->prepare("SELECT * FROM Typing WHERE typing_id = :id LIMIT 1");
+            $query2->execute(array('id' => $row['primary_typing']));
+            $type1 = $query2->fetch();
+            $types[] = $type1['typing_name'];
         }
-        return $allSpecies[0];
+        if ($row['secondary_typing'] != 19) {
+            $query3 = DB::connection()->prepare("SELECT * FROM Typing WHERE typing_id = :id LIMIT 1");
+            $query3->execute(array('id' => $row['secondary_typing']));
+            $type2 = $query3->fetch();
+            $types[] = $type2['typing_name'];
+        }
+
+        $abilities = array();
+        $query4 = DB::connection()->prepare("SELECT * FROM species_ability WHERE species_id = :id");
+        $query4->execute(array('id' => $row['species_id']));
+        $abilitytable = $query4->fetchAll();
+        foreach ($abilitytable as $ab) {
+            $abilities[] = Ability::findById($ab['ability_id']);
+        }
+
+        $species = new Species(array(
+            'species_id' => $row['species_id'],
+            'species_name' => $row['species_name'],
+            'pokedex_number' => $row['pokedex_number'],
+            'base_hp' => $row['base_hp'],
+            'base_attack' => $row['base_attack'],
+            'base_defense' => $row['base_defense'],
+            'base_special_attack' => $row['base_special_attack'],
+            'base_special_defense' => $row['base_special_defense'],
+            'base_speed' => $row['base_speed'],
+            'types' => $types,
+            'abilities' => $abilities,
+            'primary_typing' => $row['primary_typing'],
+            'secondary_typing' => $row['secondary_typing']
+        ));
+
+        return $species;
     }
 
     /**
@@ -363,86 +353,48 @@ class Species extends BaseModel {
      * @return \Species
      */
     public static function findByNumber($number) {
-        $query = DB::connection()->prepare("SELECT * 
-FROM 
-(
-SELECT ROW_NUMBER() OVER(PARTITION BY species.pokedex_number ORDER BY species.pokedex_number) as rownum, 
-species.species_id as id, 
-species.pokedex_number as number, 
-species.species_name as name,
-a.typing_name as primary, 
-b.typing_name as secondary,
-a.typing_id as primary_id, 
-b.typing_id as secondary_id, 
-c.ability_name as ability1,  
-d.ability_name as ability2, 
-e.ability_name as ability3, 
-c.ability_id as ability1_id,  
-d.ability_id as ability2_id, 
-e.ability_id as ability3_id, 
-species.base_hp as hp, 
-species.base_attack as attack, 
-species.base_defense as defense, 
-species.base_special_attack as special_attack, 
-species.base_special_defense as special_defense, 
-species.base_speed as speed
-FROM species, 
-typing a, 
-typing b, 
-ability c,
-ability d, 
-ability e
-WHERE species.primary_typing = a.typing_id
-and species.secondary_typing = b.typing_id
-and c.ability_id = species.ability1
-and d.ability_id = species.ability2
-and e.ability_id = species.ability3)a
-WHERE a.rownum = 1
-AND number = :number
-ORDER BY number;");
+        $query = DB::connection()->prepare("SELECT * FROM Species WHERE pokedex_number = :number LIMIT 1");
         $query->execute(array('number' => $number));
-        $rows = $query->fetchAll();
-        $allSpecies = array();
-        foreach ($rows as $row) {
-            $abilities = array();
-            if ($row['ability1'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability1']);
-            }
-            if ($row['ability2'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability2']);
-            }
-            if ($row['ability3'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability3']);
-            }
-            $types = array();
-            $types[] = $row['primary'];
-            if ($row['secondary'] != 'N/A') {
-                $types[] = $row['secondary'];
-            }
-            $allSpecies[] = new Species(array(
-            'species_id' => $row['id'],
-            'species_name' => $row['name'],
-            'species_original_name' => $row['name'],
-            'pokedex_number' => $row['number'],
-            'base_hp' => $row['hp'],
-            'base_attack' => $row['attack'],
-            'base_defense' => $row['defense'],
-            'base_special_attack' => $row['special_attack'],
-            'base_special_defense' => $row['special_defense'],
-            'base_speed' => $row['speed'],
-            'types' => $types,
-            'primary_typing' =>$row['primary_id'],
-            'secondary_typing' =>$row['secondary_id'],
-            'abilities' => $abilities,
-            'ability1_id' => $row['ability1_id'],
-            'ability2_id' => $row['ability2_id'],
-            'ability3_id' => $row['ability3_id'],
-            'ability1_name' => $row['ability1'],
-            'ability2_name' => $row['ability2'],
-            'ability3_name' => $row['ability3']
-            ));
+        $row = $query->fetch();
+        $types = array();
+        if ($row['primary_typing'] != 19) {
+            $query2 = DB::connection()->prepare("SELECT * FROM Typing WHERE typing_id = :id LIMIT 1");
+            $query2->execute(array('id' => $row['primary_typing']));
+            $type1 = $query2->fetch();
+            $types[] = $type1['typing_name'];
         }
-        return $allSpecies[0];
+        if ($row['secondary_typing'] != 19) {
+            $query3 = DB::connection()->prepare("SELECT * FROM Typing WHERE typing_id = :id LIMIT 1");
+            $query3->execute(array('id' => $row['secondary_typing']));
+            $type2 = $query3->fetch();
+            $types[] = $type2['typing_name'];
+        }
+
+        $abilities = array();
+        $query4 = DB::connection()->prepare("SELECT * FROM species_ability WHERE species_id = :id");
+        $query4->execute(array('id' => $row['species_id']));
+        $abilitytable = $query4->fetchAll();
+        foreach ($abilitytable as $ab) {
+            $abilities[] = Ability::findById($ab['ability_id']);
+        }
+
+        $species = new Species(array(
+            'species_id' => $row['species_id'],
+            'species_name' => $row['species_name'],
+            'pokedex_number' => $row['pokedex_number'],
+            'base_hp' => $row['base_hp'],
+            'base_attack' => $row['base_attack'],
+            'base_defense' => $row['base_defense'],
+            'base_special_attack' => $row['base_special_attack'],
+            'base_special_defense' => $row['base_special_defense'],
+            'base_speed' => $row['base_speed'],
+            'types' => $types,
+            'abilities' => $abilities,
+            'primary_typing' => $row['primary_typing'],
+            'secondary_typing' => $row['secondary_typing']
+        ));
+
+        return $species;
     }
 
     /**
@@ -450,175 +402,69 @@ ORDER BY number;");
      * @param type $name nimi
      * @return \Species
      */
-    public static function findByName($name) {
-        $query = DB::connection()->prepare("SELECT * 
-FROM 
-(
-SELECT ROW_NUMBER() OVER(PARTITION BY species.pokedex_number ORDER BY species.pokedex_number) as rownum, 
-species.species_id as id, 
-species.pokedex_number as number, 
-species.species_name as name,
-a.typing_name as primary, 
-b.typing_name as secondary, 
-c.ability_name as ability1,  
-d.ability_name as ability2, 
-e.ability_name as ability3, 
-c.ability_id as ability1_id,  
-d.ability_id as ability2_id, 
-e.ability_id as ability3_id, 
-species.base_hp as hp, 
-species.base_attack as attack, 
-species.base_defense as defense, 
-species.base_special_attack as special_attack, 
-species.base_special_defense as special_defense, 
-species.base_speed as speed
-FROM species, 
-typing a, 
-typing b, 
-ability c,
-ability d, 
-ability e
-WHERE species.primary_typing = a.typing_id
-and species.secondary_typing = b.typing_id
-and c.ability_id = species.ability1
-and d.ability_id = species.ability2
-and e.ability_id = species.ability3)a
-WHERE a.rownum = 1
-AND name LIKE :name
-ORDER BY number;");
-        $query->execute(array('name' => "%$name%"));
+    public static function findByNameContaining($name) {
+        $query = DB::connection()->prepare("SELECT * FROM Species WHERE UPPER(species_name) LIKE UPPER(:name) ORDER BY pokedex_number");
+        $query->execute(array('name' => '%' . $name . '%'));
         $rows = $query->fetchAll();
         $allSpecies = array();
         foreach ($rows as $row) {
-            $abilities = array();
-            if ($row['ability1'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability1']);
-            }
-            if ($row['ability2'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability2']);
-            }
-            if ($row['ability3'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability3']);
-            }
             $types = array();
-            $types[] = $row['primary'];
-            if ($row['secondary'] != 'N/A') {
-                $types[] = $row['secondary'];
+            if ($row['primary_typing'] != 19) {
+                $query2 = DB::connection()->prepare("SELECT * FROM Typing WHERE typing_id = :id LIMIT 1");
+                $query2->execute(array('id' => $row['primary_typing']));
+                $type1 = $query2->fetch();
+                $types[] = $type1['typing_name'];
             }
+            if ($row['secondary_typing'] != 19) {
+                $query3 = DB::connection()->prepare("SELECT * FROM Typing WHERE typing_id = :id LIMIT 1");
+                $query3->execute(array('id' => $row['secondary_typing']));
+                $type2 = $query3->fetch();
+                $types[] = $type2['typing_name'];
+            }
+
+            $abilities = array();
+            $query4 = DB::connection()->prepare("SELECT * FROM species_ability WHERE species_id = :id");
+            $query4->execute(array('id' => $row['species_id']));
+            $abilitytable = $query4->fetchAll();
+            foreach ($abilitytable as $ab) {
+                $abilities[] = Ability::findById($ab['ability_id']);
+            }
+
             $allSpecies[] = new Species(array(
-                'species_id' => $row['id'],
-                'species_name' => $row['name'],
-                'pokedex_number' => $row['number'],
-                'base_hp' => $row['hp'],
-                'base_attack' => $row['attack'],
-                'base_defense' => $row['defense'],
-                'base_special_attack' => $row['special_attack'],
-                'base_special_defense' => $row['special_defense'],
-                'base_speed' => $row['speed'],
+                'species_id' => $row['species_id'],
+                'species_name' => $row['species_name'],
+                'pokedex_number' => $row['pokedex_number'],
+                'base_hp' => $row['base_hp'],
+                'base_attack' => $row['base_attack'],
+                'base_defense' => $row['base_defense'],
+                'base_special_attack' => $row['base_special_attack'],
+                'base_special_defense' => $row['base_special_defense'],
+                'base_speed' => $row['base_speed'],
                 'types' => $types,
                 'abilities' => $abilities,
-                'ability1_id' => $row['ability1_id'],
-                'ability2_id' => $row['ability2_id'],
-                'ability3_id' => $row['ability3_id'],
-                'ability1_name' => $row['ability1'],
-                'ability2_name' => $row['ability2'],
-                'ability3_name' => $row['ability3']
+                'primary_typing' => $row['primary_typing'],
+                'secondary_typing' => $row['secondary_typing']
             ));
-            unset($abilities);
             unset($types);
+            unset($abilities);
         }
         return $allSpecies;
     }
 
     /**
      * Hakee lajin tietokannasta taidon nimen perusteella
-     * @param type $name taidon nimi
+     * @param type $name taidon id
      * @return \Species
      */
-    public static function findByAbility($name) {
-        $query = DB::connection()->prepare("SELECT * 
-FROM 
-(
-SELECT ROW_NUMBER() OVER(PARTITION BY species.pokedex_number ORDER BY species.pokedex_number) as rownum, 
-species.species_id as id, 
-species.pokedex_number as number, 
-species.species_name as name,
-a.typing_name as primary, 
-b.typing_name as secondary, 
-c.ability_name as ability1,  
-d.ability_name as ability2, 
-e.ability_name as ability3, 
-c.ability_id as ability1_id,  
-d.ability_id as ability2_id, 
-e.ability_id as ability3_id, 
-species.base_hp as hp, 
-species.base_attack as attack, 
-species.base_defense as defense, 
-species.base_special_attack as special_attack, 
-species.base_special_defense as special_defense, 
-species.base_speed as speed
-FROM species, 
-typing a, 
-typing b, 
-ability c,
-ability d, 
-ability e
-WHERE species.primary_typing = a.typing_id
-and species.secondary_typing = b.typing_id
-and c.ability_id = species.ability1
-and d.ability_id = species.ability2
-and e.ability_id = species.ability3)a
-WHERE a.rownum = 1
-AND(
-a.ability1 = :name
-OR a.ability2 = :name
-OR a.ability3 = :name
-)
-ORDER BY number;");
-        $query->execute(array('name' => $name));
-        $rows = $query->fetchAll();
-        $allSpecies = array();
-        foreach ($rows as $row) {
-            if ($row['ability1'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability1']);
-            }
-            if ($row['ability2'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability2']);
-            }
-            if ($row['ability3'] != 'No Ability') {
-                $abilities[] = Ability::findByName($row['ability3']);
-            }
-            $types = array();
-            $types[] = $row['primary'];
-            if ($row['secondary'] != 'N/A') {
-                $types[] = $row['secondary'];
-            }
-            $allSpecies[] = new Species(array(
-                'species_id' => $row['id'],
-                'species_name' => $row['name'],
-                'pokedex_number' => $row['number'],
-                'base_hp' => $row['hp'],
-                'base_attack' => $row['attack'],
-                'base_defense' => $row['defense'],
-                'base_special_attack' => $row['special_attack'],
-                'base_special_defense' => $row['special_defense'],
-                'base_speed' => $row['speed'],
-                'types' => $types,
-                'abilities' => $abilities,
-                'ability1_name' => $row['ability1'],
-                'ability2_name' => $row['ability2'],
-                'ability3_name' => $row['ability3'],
-                'ability1_id' => $row['ability1_id'],
-                'ability2_id' => $row['ability2_id'],
-                'ability3_id' => $row['ability3_id'],
-                'ability1_name' => $row['ability1'],
-                'ability2_name' => $row['ability2'],
-                'ability3_name' => $row['ability3']
-            ));
-            unset($abilities);
-            unset($types);
+    public static function findByAbility($id) {
+        $species = array();
+        $query4 = DB::connection()->prepare("SELECT * FROM species_ability WHERE ability_id = :id");
+        $query4->execute(array('id' => $id));
+        $species_and_abilities = $query4->fetchAll();
+        foreach ($species_and_abilities as $pair) {
+            $species[] = self::findById($pair['species_id']);
         }
-        return $allSpecies;
+        return $species;
     }
 
 }

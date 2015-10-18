@@ -60,7 +60,8 @@
             <th>Base Sp.Defense</th>
             <th>Base Speed</th>
             {% if user_logged_in %}
-            <th>Add to your guys</th>
+            <th>Quick Add</th>
+            <th>Add with Stats</th>
             {% endif %}
             {% if user_logged_in.admini %}
             <th>Edit</th>
@@ -75,7 +76,7 @@
             <td>#{{species.pokedex_number}}</td>
             <td><a href="{{base_path}}/species/{{species.pokedex_number}}">{{species.species_name}}</td>
             <td>{% for type in species.types %}{{type}}<br>{% endfor %}</td>
-            <td>{% for ability in species.abilities %}<a href="{{base_path}}/ability/{{ability.ability_name}}">{{ability.ability_name}}</a><br> {% endfor %}</td>
+            <td>{% for ability in species.abilities %}<a href="{{base_path}}/ability/{{ability.ability_id}}">{{ability.ability_name}}</a><br> {% endfor %}</td>
             <td>{{species.base_hp}}</td>
             <td>{{species.base_attack}}</td>
             <td>{{species.base_defense}}</td>
@@ -83,7 +84,12 @@
             <td>{{species.base_special_defense}}</td>
             <td>{{species.base_speed}}</td>
             {% if user_logged_in %}
-            <td><a class="btn btn-success" href="{{base_path}}/pokemon/new/{{species.pokedex_number}}">Add</a></td>
+            <td>
+                <form method="post" action="{{base_path}}/pokemon/new/{{species.pokedex_number}}" style="display: inline-block;">
+                    <button type="submit" class="btn btn-success">Add Now</button>
+                </form>
+            </td>
+            <td><a class="btn btn-primary" href="{{base_path}}/pokemon/new/{{species.pokedex_number}}">To the Form</a></td>     
             {% endif %}
             {% if user_logged_in.admini %}
             <td><a href="{{base_path}}/species/{{species.pokedex_number}}/edit" class="btn btn-primary">Edit</a></td>

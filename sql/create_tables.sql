@@ -24,17 +24,6 @@ CREATE TABLE Ability(
   description varchar(300) NOT NULL
 );
 
-CREATE TABLE Move(
-  move_id SERIAL PRIMARY KEY,
-  move_name varchar(15) NOT NULL,
-  description varchar(300) NOT NULL,
-  power int,
-  accuracy int,
-  pp int,
-  category varchar(15),
-  typing INTEGER REFERENCES Typing(typing_id)
-);
-
 CREATE TABLE Species(
   species_id SERIAL PRIMARY KEY,
   species_name varchar(15) NOT NULL,
@@ -46,10 +35,7 @@ CREATE TABLE Species(
   base_special_defense int NOT NULL,
   base_speed int NOT NULL,
   primary_typing INTEGER REFERENCES Typing(typing_id),
-  secondary_typing INTEGER REFERENCES Typing(typing_id),
-  ability1 INTEGER REFERENCES Ability(ability_id),
-  ability2 INTEGER REFERENCES Ability(ability_id),
-  ability3 INTEGER REFERENCES Ability(ability_id)
+  secondary_typing INTEGER REFERENCES Typing(typing_id)
 );
 
 CREATE TABLE Pokemon(
@@ -83,36 +69,11 @@ CREATE TABLE Pokemon(
   trainer INTEGER REFERENCES Trainer (trainer_id)
 );
 
-CREATE TABLE species_all_moves (
+CREATE TABLE species_ability (
   species_id int REFERENCES Species (species_id),
-  move_id int REFERENCES Move (move_id),
+  ability_id int REFERENCES Ability (ability_id),
   id SERIAL PRIMARY KEY
 );
-
-CREATE TABLE pokemon_current_moves (
-  pokemon_id int REFERENCES Pokemon (pokemon_id),
-  move_id int REFERENCES Move (move_id),
-  id SERIAL PRIMARY KEY
-);
-
-CREATE TABLE super_effective (
-  attack_typing_id int REFERENCES Typing (typing_id),
-  defense_typing_id int REFERENCES Typing (typing_id),
-  id SERIAL PRIMARY KEY
-);
-
-CREATE TABLE not_effective (
-  attack_typing_id int REFERENCES Typing (typing_id),
-  defense_typing_id int REFERENCES Typing (typing_id),
-  id SERIAL PRIMARY KEY
-);
-
-CREATE TABLE immune (
-  attack_typing_id int REFERENCES Typing (typing_id),
-  defense_typing_id int REFERENCES Typing (typing_id),
-  id SERIAL PRIMARY KEY
-);
-
 
 
 

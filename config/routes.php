@@ -10,6 +10,10 @@ $routes->get('/', function() {
     SpeciesController::index();
 });
 
+/**
+ * USERS
+ */
+
 $routes->get('/login', function() {
     UserController::login();
 });
@@ -29,6 +33,10 @@ $routes->get('/register', function() {
 $routes->post('/register', function() {
     UserController::handle_register();
 });
+
+/**
+ * SPECIES
+ */
 
 $routes->get('/species', function() {
     SpeciesController::index();
@@ -61,36 +69,45 @@ $routes->get('/species/:number', function($number) {
     SpeciesController::show($number);
 });
 
-$routes->get('/ability/new', function() {
-    AbilityController::newForm();
-});
-
-$routes->get('/ability/search', function() {
-    AbilityController::search();
-});
-$routes->post('/ability/add', function() {
-    AbilityController::create();
-});
+/**
+ * ABILITIES
+ */
 
 $routes->get('/ability', function() {
     AbilityController::index();
 });
 
-$routes->get('/ability/:name/edit', function($name) {
-    AbilityController::edit($name);
+$routes->get('/ability/new', function() {
+    AbilityController::newForm();
 });
 
-$routes->post('/ability/:name/save', function($name) {
-    AbilityController::update($name);
+$routes->post('/ability/add', function() {
+    AbilityController::create();
 });
 
-$routes->post('/ability/:name/delete', function($name) {
-    AbilityController::delete($name);
+$routes->get('/ability/search', function() {
+    AbilityController::search();
 });
 
-$routes->get('/ability/:name', function($name) {
-    AbilityController::show($name);
+$routes->get('/ability/:id/edit', function($id) {
+    AbilityController::edit($id);
 });
+
+$routes->post('/ability/:id/save', function($id) {
+    AbilityController::update($id);
+});
+
+$routes->post('/ability/:id/delete', function($id) {
+    AbilityController::delete($id);
+});
+
+$routes->get('/ability/:id', function($id) {
+    AbilityController::show($id);
+});
+
+/**
+ * POKEMON
+ */
 
 $routes->get('/pokemon', function() {
     PokemonController::index();
@@ -102,6 +119,14 @@ $routes->get('/pokemon/search', function() {
 
 $routes->post('/pokemon/new/add', function() {
     PokemonController::create();
+});
+
+$routes->get('/pokemon/new/:number', function($number) {
+    PokemonController::newForm($number);
+});
+
+$routes->post('/pokemon/new/:number', function($number) {
+    PokemonController::quickAdd($number);
 });
 
 $routes->get('/pokemon/new/:number', function($number) {
@@ -124,18 +149,11 @@ $routes->get('/pokemon/:id', function($id) {
     PokemonController::show($id);
 });
 
+
+
+
+
 $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
 
-//$routes->get('/view/471', function() {
-//    HelloWorldController::view_general_info();
-//});
-//
-//$routes->get('/addnew', function() {
-//    HelloWorldController::add_new();
-//});
-//
-//$routes->get('/mypokemon/1', function() {
-//    HelloWorldController::view_and_edit_my_guys();
-//});

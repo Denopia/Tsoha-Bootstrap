@@ -254,8 +254,9 @@ class Pokemon extends BaseModel {
             'species' => $this->species,
             'trainer' => $this->trainer
         ));
-//        $row = $query->fetch();
-//        $pokemonid = $row['pokemon_id'];
+        $row = $query->fetch();
+        $this->pokemon_id = $row['pokemon_id'];
+
     }
 
     /**
@@ -272,10 +273,10 @@ class Pokemon extends BaseModel {
         $query->execute(array('n' => $species->species_id));
     }
 
-    public static function removeAbilityFromAll($id, $name) {
+    public static function removeAbilityFromAll($id) {
         $rows = self::findAll();
         foreach ($rows as $row) {
-            if ($row->current_ability_name == $name) {
+            if ($row->current_ability == $id) {
                 $query = DB::connection()->prepare('UPDATE Pokemon SET current_ability = :a WHERE pokemon_id = :id');
                 $query->execute(array('a' => '1', 'id' => $row->pokemon_id));
             }

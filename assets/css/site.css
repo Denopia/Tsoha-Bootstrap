@@ -27,7 +27,7 @@
     padding-top: 5px;
     font-size: 70%;
     border-color: #ddd;
-    height:45px;
+    height:40px;
 }
 
 html, body {
@@ -37,7 +37,7 @@ html, body {
 #wrapper { min-height: 100%; 
            height: auto !important; 
            height: 100%; 
-           margin: 0 auto -50px; 
+           margin: 0 auto -45px; 
 }
 #bottom, #push { 
     height:50px;

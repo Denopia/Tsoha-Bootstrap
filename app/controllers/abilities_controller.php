@@ -6,7 +6,6 @@ require_once 'app/models/ability.php';
 /**
  * Kontrolloi taitoihin liittyviä toimintoja
  */
-
 class AbilityController extends BaseController {
 
     /**
@@ -43,13 +42,14 @@ class AbilityController extends BaseController {
         $params = $_POST;
         $attributes = array(
             'ability_name' => $params['name'],
-            'description' => $params['description']
+            'description' => $params['description'],
+            'ability_original_name' => $params['name']
         );
         $ability = new Ability($attributes);
         $errors = $ability->errors();
         if (count($errors) == 0) {
             $ability->save();
-            Redirect::to('/ability/' . $ability->ability_name, array('message' => 'Ability added to database'));
+            Redirect::to('/ability/' . $ability->ability_id, array('message' => 'Ability added to database'));
         } else {
             View::make('suunnitelmat/new_ability.html', array('errors' => $errors, 'attributes' => $attributes));
         }
@@ -62,9 +62,9 @@ class AbilityController extends BaseController {
      * 
      * @param type $name taidon nimi
      */
-    public static function show($name) {
-        $ability = Ability::findByName($name);
-        $allSpecies = Species::findByAbility($name);
+    public static function show($id) {
+        $ability = Ability::findById($id);
+        $allSpecies = Species::findByAbility($id);
         View::make('suunnitelmat/view_ability.html', array('ability' => $ability, 'allSpecies' => $allSpecies));
     }
 
@@ -73,9 +73,9 @@ class AbilityController extends BaseController {
      * 
      * @param type $name taidon nimi
      */
-    public static function delete($name) {
+    public static function delete($id) {
         self::check_admin();
-        $ability = new Ability(array('ability_name' => $name));
+        $ability = new Ability(array('ability_id' => $id));
         $ability->delete();
         Redirect::to('/ability', array('message' => 'Ability removed from database'));
     }
@@ -85,9 +85,9 @@ class AbilityController extends BaseController {
      * 
      * @param type $name taidon nimi
      */
-    public static function edit($name) {
+    public static function edit($id) {
         self::check_admin();
-        $ability = Ability::findByName($name);
+        $ability = Ability::findById($id);
         View::make('suunnitelmat/edit_ability.html', array('attributes' => $ability));
     }
 
@@ -97,7 +97,7 @@ class AbilityController extends BaseController {
      * 
      * @param type $number taidon id
      */
-    public static function update($number) {
+    public static function update($id) {
         self::check_admin();
         $params = $_POST;
         $attributes = array('ability_name' => $params['name'],
@@ -109,7 +109,7 @@ class AbilityController extends BaseController {
         $errors = $ability->errors();
         if (count($errors) == 0) {
             $ability->update();
-            Redirect::to('/ability/' . $ability->ability_name, array('message' => 'Ability updated'));
+            Redirect::to('/ability/' . $id, array('message' => 'Ability updated'));
         } else {
             View::make('suunnitelmat/edit_ability.html', array('errors' => $errors, 'attributes' => $attributes));
         }

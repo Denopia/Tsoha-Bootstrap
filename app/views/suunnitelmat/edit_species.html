@@ -87,7 +87,7 @@
                     <select name="ability1">
                         <option value="1">-</option>
                         {% for ability in abilities %}      
-                        {% if attributes.ability1_id == ability.ability_id %}
+                        {% if attributes.abilities[0].ability_id == ability.ability_id %}
                         <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
                         {%else%}
                         <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
@@ -101,7 +101,7 @@
                     <select name="ability2">
                         <option value="1">-</option>
                         {% for ability in abilities %}
-                        {% if attributes.ability2_id == ability.ability_id %}
+                        {% if attributes.abilities[1].ability_id == ability.ability_id %}
                         <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
                         {%else%}
                         <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
@@ -116,7 +116,20 @@
                     <select name="ability3">
                         <option value="1">-</option>
                         {% for ability in abilities %}
-                        {% if attributes.ability3_id == ability.ability_id %}
+                        {% if attributes.abilities[2].ability_id == ability.ability_id %}
+                        <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+                        {%else%}
+                        <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
+                        {%endif%}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>4th ability</label>
+                    <select name="ability4">
+                        <option value="1">-</option>
+                        {% for ability in abilities %}
+                        {% if attributes.abilities[3].ability_id == ability.ability_id %}
                         <option selected value="{{ability.ability_id}}">{{ability.ability_name}}</option>
                         {%else%}
                         <option value="{{ability.ability_id}}">{{ability.ability_name}}</option>
@@ -133,33 +146,33 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Base hp</label>
-                    <input name="hp" value = "{{attributes.base_hp}}" class="form-control" type="number" min="1" max="999">
+                    <input name="hp" value = "{{attributes.base_hp}}" class="form-control" type="number" min="0" max="999">
                 </div>
 
                 <div class="form-group">
                     <label>Base attack</label>
-                    <input name="attack" value = "{{attributes.base_attack}}"class="form-control" type="number" min="1" max="999">
+                    <input name="attack" value = "{{attributes.base_attack}}"class="form-control" type="number" min="0" max="999">
                 </div>
 
                 <div class="form-group">
                     <label>Base defense</label>
-                    <input name="defense" value = "{{attributes.base_defense}}"class="form-control" type="number" min="1" max="999">
+                    <input name="defense" value = "{{attributes.base_defense}}"class="form-control" type="number" min="0" max="999">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Base special attack</label>
-                    <input name="spattack" value = "{{attributes.base_special_attack}}"class="form-control" type="number" min="1" max="999">
+                    <input name="spattack" value = "{{attributes.base_special_attack}}"class="form-control" type="number" min="0" max="999">
                 </div>
 
                 <div class="form-group">
                     <label>Base special defense</label>
-                    <input name="spdefense" value = "{{attributes.base_special_defense}}"class="form-control" type="number" min="1" max="999">
+                    <input name="spdefense" value = "{{attributes.base_special_defense}}"class="form-control" type="number" min="0" max="999">
                 </div>
 
                 <div class="form-group">
                     <label>Base speed</label>
-                    <input name="speed" value = "{{attributes.base_speed}}"class="form-control" type="number" min="1" max="999">
+                    <input name="speed" value = "{{attributes.base_speed}}"class="form-control" type="number" min="0" max="999">
                 </div>
             </div>
         </div>
